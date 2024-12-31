@@ -39,7 +39,7 @@ function App() {
         <button onClick={() => handleClick('0')}>0</button>
         <button onClick={() => handleClick('+')}>+</button>
         <button onClick={() => handleClick('-')}>-</button>
-        <button onClick={() => handleClick('*')}>*</button>
+        <button onClick={() => handleClick('*')}>×</button>
         <button onClick={() => handleClick('/')}>/</button>
         <button onClick={handleClear}>C</button>
         <button onClick={handleEvaluate}>=</button>
