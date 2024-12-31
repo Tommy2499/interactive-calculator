@@ -1,33 +1,50 @@
-/* App.css */
+/* General Layout */
 .App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #E5E7EB;
+  height: 100vh;
+}
+
+/* Calculator Container */
+.device {
+  display: flex;
+  flex-direction: column;
   background-color: #1e1e1e; /* Dark background for the app */
   color: white;
   padding: 40px;
   border-radius: 15px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
-  max-width: 400px;
-  margin: 50px auto;
+  width: 50vh; /* Proportional width */
+  max-width: 90%; /* Ensure it doesn’t exceed screen width */
+  margin: 20px auto; /* Adjust spacing on smaller screens */
 }
 
+/* Display Styling */
 .display {
+  display: flex;
   background-color: #333;
   color: white;
-  font-size: 2.5rem;
+  font-size: 3rem;
   padding: 20px;
   border-radius: 10px;
-  text-align: right;
+  justify-content: flex-end; /* Right-align text */
+  align-items: center;
   margin-bottom: 20px;
   height: 80px;
-  overflow-x: auto;
+  overflow-x: auto; /* Ensure long numbers can scroll */
 }
 
+/* Button Grid */
 .buttons {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Create 4 equal columns */
-  gap: 10px; /* Add spacing between buttons */
+  grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+  gap: 10px;
   margin-bottom: 10px;
 }
 
+/* Button Styling */
 button {
   height: 70px;
   font-size: 2rem;
@@ -40,6 +57,7 @@ button {
 
 button:hover {
   background-color: #555;
+  cursor: pointer;
 }
 
 button:active {
@@ -47,10 +65,10 @@ button:active {
   transform: scale(0.95); /* Adds a slight press effect */
 }
 
+/* Operation Button Styling */
 .operation-btn {
   background-color: #FF9500; /* Orange background for operations */
   color: white;
-  font-size: 2.5rem;
 }
 
 .operation-btn:hover {
@@ -61,6 +79,7 @@ button:active {
   background-color: #b87700; /* Even darker orange on press */
 }
 
+/* Invisible Buttons */
 .invisible {
   background-color: #1e1e1e;
 }
@@ -69,9 +88,10 @@ button:active {
   background-color: #1e1e1e;
 }
 
+/* Bottom Row Buttons */
 .bottom-row {
   display: grid;
-  grid-template-columns: repeat(1, 1fr); /* Create 4 equal columns */
+  grid-template-columns: repeat(1, 1fr); /* Single-column layout for bottom row */
   gap: 10px; /* Add spacing between buttons */
 }
 
@@ -79,10 +99,21 @@ button:active {
   background-color: #888;
 }
 
-.bottom-row button:hover{
+.bottom-row button:hover {
   background-color: #777;
 }
 
-.bottom-row button:active{
+.bottom-row button:active {
   background-color: #666;
+}
+
+/* Media Query for Mobile Screens */
+@media (max-width: 768px) {
+  .device {
+    padding: 20px; /* Reduce padding to save space */
+    margin: 10px;
+  }
+  button{
+    height: 85px;
+  }
 }
