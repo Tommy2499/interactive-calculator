@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './App.css';  // Keep this for styling your app
+import { Button, Container } from 'react-bootstrap';
+import './App.css';
 
 function App() {
   const [input, setInput] = useState('');
@@ -24,27 +25,33 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <div className="display">{input}</div>
-      <div className="buttons">
-        <button onClick={() => handleClick('1')}>1</button>
-        <button onClick={() => handleClick('2')}>2</button>
-        <button onClick={() => handleClick('3')}>3</button>
-        <button onClick={() => handleClick('4')}>4</button>
-        <button onClick={() => handleClick('5')}>5</button>
-        <button onClick={() => handleClick('6')}>6</button>
-        <button onClick={() => handleClick('7')}>7</button>
-        <button onClick={() => handleClick('8')}>8</button>
-        <button onClick={() => handleClick('9')}>9</button>
-        <button onClick={() => handleClick('0')}>0</button>
-        <button onClick={() => handleClick('+')}>+</button>
-        <button onClick={() => handleClick('-')}>-</button>
-        <button onClick={() => handleClick('*')}>×</button>
-        <button onClick={() => handleClick('/')}>/</button>
-        <button onClick={handleClear}>C</button>
-        <button onClick={handleEvaluate}>=</button>
+    <Container className="App">
+      <div className="display">
+        {input || '0'}
       </div>
-    </div>
+      <div className="buttons">
+        <Button variant="secondary" onClick={() => handleClick('1')}>1</Button>
+        <Button variant="secondary" onClick={() => handleClick('2')}>2</Button>
+        <Button variant="secondary" onClick={() => handleClick('3')}>3</Button>
+        <Button variant="secondary" className="operation-btn" onClick={() => handleClick('+')}>+</Button>
+        <Button variant="secondary" onClick={() => handleClick('4')}>4</Button>
+        <Button variant="secondary" onClick={() => handleClick('5')}>5</Button>
+        <Button variant="secondary" onClick={() => handleClick('6')}>6</Button>
+        <Button variant="secondary" className="operation-btn" onClick={() => handleClick('-')}>–</Button>
+        <Button variant="secondary" onClick={() => handleClick('7')}>7</Button>
+        <Button variant="secondary" onClick={() => handleClick('8')}>8</Button>
+        <Button variant="secondary" onClick={() => handleClick('9')}>9</Button>
+        <Button variant="secondary" className="operation-btn" onClick={() => handleClick('*')}>×</Button>
+        <Button variant="secondary" onClick={handleClear}>C</Button>
+        <Button variant="secondary" onClick={() => handleClick('0')}>0</Button>
+        <Button variant="secondary" onClick={() => handleClick('.')}>.</Button>
+        <Button variant="secondary" className="operation-btn" onClick={() => handleClick('/')}>÷</Button>
+
+      </div>
+      <div className="bottom-row">
+        <Button variant="secondary" className="operation-btn" onClick={handleEvaluate}>=</Button>
+      </div>
+    </Container>
   );
 }
 
