@@ -4,8 +4,13 @@ import Calculator from './BasicCalculator';
 import Home from './Home';
 
 function App() {
+
+  // Dynamically set the basename based on the environment
+  const basename =
+    process.env.NODE_ENV === 'production' ? '/interactive-calculator' : '';
+
   return (
-    <BrowserRouter basename='/'>
+    <BrowserRouter basename={basename}>
       <div className="App">
         <Routes>
           {/* Define the route for the Home page */}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 function Home() {
@@ -7,9 +8,9 @@ function Home() {
       <h1>Welcome to My Calculator App</h1>
       <p>Click the button below to access the calculator:</p>
       <Link to="/calculator">
-        <button style={{ padding: '10px 20px', fontSize: '1.2rem', cursor: 'pointer' }}>
+        <Button style={{ padding: '10px 20px', fontSize: '1.2rem', cursor: 'pointer' }}>
           Go to Calculator
-        </button>
+        </Button>
       </Link>
     </div>
   );
