@@ -2,7 +2,7 @@
   "name": "interactive-calculator",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/Tommy2499/interactive-calculator",
+  "homepage": "https://tommy2499.github.io/interactive-calculator",
   "dependencies": {
     "bootstrap": "^5.3.3",
     "cra-template": "1.2.0",
