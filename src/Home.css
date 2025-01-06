@@ -1,0 +1,40 @@
+.home {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+.home h1 {
+    font-size: 2.5rem;
+    color: #444;
+}
+
+.home p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.home-button {
+    background-color: #FF9500;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.home-button:hover {
+    background-color: #e68900;
+}
+
+.link-container {
+    padding: 10px;
+    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+.calc-link {
+    padding: 10px;
+    font-size: 14pt;
+}
