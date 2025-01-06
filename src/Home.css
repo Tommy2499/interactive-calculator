@@ -1,6 +1,10 @@
 .home {
-    text-align: center;
-    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
   }
 
 .home h1 {
@@ -37,4 +41,11 @@
 .calc-link {
     padding: 10px;
     font-size: 14pt;
+}
+
+.link-interface {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    text-align: center;
 }

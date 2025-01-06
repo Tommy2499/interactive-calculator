@@ -1,7 +1,8 @@
 /* General Layout */
 .App {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: start;
   align-items: center;
   background-color: #E5E7EB;
   height: 100vh;
@@ -105,6 +106,28 @@ button:active {
 
 .bottom-row button:active {
   background-color: #666;
+}
+
+.top-menu-container {
+  display: flex;
+  height: 24px;
+  width: 100%;
+  background-color: blue;
+  align-items: center; /* Vertically align content */
+  justify-content: center; /* Center content horizontally */
+  color: white; /* Make the text more readable */
+  font-size: 16px; /* Adjust text size */
+}
+
+.btm-menu-container {
+  display: flex;
+  height: 24px;
+  width: 100%;
+  background-color: blue;
+  align-items: center; /* Vertically align content */
+  justify-content: center; /* Center content horizontally */
+  color: white; /* Make the text more readable */
+  font-size: 16px; /* Adjust text size */
 }
 
 /* Media Query for Mobile Screens */
