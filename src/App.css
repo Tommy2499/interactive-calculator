@@ -8,43 +8,6 @@
   height: 100vh;
 }
 
-/* Calculator Container */
-.device {
-  display: flex;
-  flex-direction: column;
-  background-color: #1e1e1e; /* Dark background for the app */
-  color: white;
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
-  width: 50vh; /* Proportional width */
-  max-width: 90%; /* Ensure it doesn’t exceed screen width */
-  margin: 20px auto; /* Adjust spacing on smaller screens */
-}
-
-/* Display Styling */
-.display {
-  display: flex;
-  background-color: #333;
-  color: white;
-  font-size: 3rem;
-  padding: 20px;
-  border-radius: 10px;
-  justify-content: flex-end; /* Right-align text */
-  align-items: center;
-  margin-bottom: 20px;
-  height: 80px;
-  overflow-x: auto; /* Ensure long numbers can scroll */
-}
-
-/* Button Grid */
-.buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
 /* Button Styling */
 button {
   height: 70px;
