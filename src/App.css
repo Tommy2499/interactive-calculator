@@ -76,10 +76,13 @@ button:active {
   height: 24px;
   width: 100%;
   background-color: blue;
-  align-items: center; /* Vertically align content */
-  justify-content: center; /* Center content horizontally */
-  color: white; /* Make the text more readable */
-  font-size: 16px; /* Adjust text size */
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  font-weight: 700;
+
 }
 
 .btm-menu-container {
@@ -87,14 +90,19 @@ button:active {
   height: 24px;
   width: 100%;
   background-color: blue;
-  align-items: center; /* Vertically align content */
-  justify-content: center; /* Center content horizontally */
-  color: white; /* Make the text more readable */
-  font-size: 16px; /* Adjust text size */
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  font-weight: 700;
 }
 
 /* Media Query for Mobile Screens */
 @media (max-width: 768px) {
+  .App {
+    height: fit-content;
+  }
   .device {
     padding: 20px; /* Reduce padding to save space */
     margin: 10px;

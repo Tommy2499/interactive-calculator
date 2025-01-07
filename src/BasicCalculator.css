@@ -32,7 +32,7 @@
     justify-content: flex-end; /* Right-align text */
     align-items: center;
     margin-bottom: 20px;
-    height: 80px;
+    height: 70px;
     overflow-x: auto; /* Ensure long numbers can scroll */
 }
 
@@ -46,7 +46,7 @@
 
 /* Button Styling */
 button {
-    height: 70px;
+    height: 60px;
     font-size: 2rem;
     border-radius: 10px;
     background-color: #444;
@@ -54,3 +54,21 @@ button {
     border: none;
     transition: background-color 0.2s, transform 0.2s;
   }
+
+  @media (max-width: 768px) {
+    .basic-page {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%
+    }
+  .device {
+    padding: 20px; /* Reduce padding to save space */
+    margin: 10px;
+    max-width: 80%;
+  }
+  button{
+    height: 85px;
+  }
+}

@@ -5,7 +5,7 @@ import './BasicCalculator.css'
 import TopMenu from './TopMenu';
 import BottomMenu from './BottomMenu';
 
-function Calculator() {
+function BasicCalculator() {
   const [input, setInput] = useState('');
 
   const handleClick = (value) => {
@@ -58,4 +58,4 @@ function Calculator() {
   );
 }
 
-export default Calculator;
+export default BasicCalculator;

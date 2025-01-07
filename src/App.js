@@ -16,7 +16,7 @@ function App() {
           {/* Define the route for the Home page */}
           <Route path="/" element={<Home />} />
           {/* Define the route for the Calculator page */}
-          <Route path="/calculator" element={<Calculator />} />
+          <Route path="/basic-calculator" element={<Calculator />} />
         </Routes>
       </div>
     </BrowserRouter>
