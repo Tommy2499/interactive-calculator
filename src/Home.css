@@ -24,12 +24,12 @@
     padding: 10px 20px;
     font-size: 1.2rem;
     border-radius: 5px;
-    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .home-button:hover {
     background-color: #e68900;
+    cursor: pointer !important;
 }
 
 .link-container {
@@ -48,4 +48,8 @@
     flex-direction: column;
     width: 50%;
     text-align: center;
+    border:#444;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 24px;
 }

@@ -6,6 +6,7 @@ import TopMenu from './TopMenu'
 import BottomMenu from './BottomMenu';
 
 function Home() {
+    console.log("Home component rendered");
   return (
     <div className="home">
       <TopMenu></TopMenu>
@@ -14,7 +15,7 @@ function Home() {
         <p>Click the button below to access the calculator:</p>
         <div className='link-container'>
             <Link to="/calculator">
-                <Button className='calc-link'>
+                <Button className='home-button'>
                     Go to Calculator
                 </Button>
             </Link>
