@@ -2,12 +2,11 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Calculator from './BasicCalculator';
 import Home from './Home';
+import basename from './config';
 
 function App() {
 
   // Dynamically set the basename based on the environment
-  const basename =
-    process.env.NODE_ENV === 'production' ? '/interactive-calculator' : '';
 
   return (
     <BrowserRouter basename={basename}>

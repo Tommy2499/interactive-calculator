@@ -71,7 +71,11 @@
     justify-content: center;
     align-items: flex-start;
     padding: 20px;
-    max-width: 700px;
+    max-width: 600px;
+
+    border-radius: 48px;
+    margin: 40px;
+    padding: 40px;
 }
 
 .left-section h1 {
@@ -94,6 +98,10 @@
     align-items: center;
     justify-content: center;
     animation: slide-in 0.8s ease-out;
+    background-color: #1F2937;
+    border-radius: 48px;
+    margin: 40px;
+    padding: 40px;
 }
 
 /* Calculator Display */

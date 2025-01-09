@@ -5,7 +5,8 @@
   justify-content: start;
   align-items: center;
   background-color: #E5E7EB;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
 }
 
 /* Button Styling */
@@ -74,21 +75,28 @@ button:active {
 .top-menu-container {
   display: flex;
   height: 36px;
-  width: 100%;
   background-color: #1F2937;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   color: white;
-  font-size: 16px;
-  padding: 10px;
+  padding: 10px 64px;
   font-weight: 700;
 
+}
+
+.right-top-menu {
+  display: flex;
+  gap: 40px;
+  font-size: 16px;
+}
+
+.left-top-menu {
+  font-size: 24px;
 }
 
 .btm-menu-container {
   display: flex;
   height: 24px;
-  width: 100%;
   background-color: #1F2937;
   align-items: center;
   justify-content: center;
