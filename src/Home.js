@@ -4,6 +4,7 @@ import './Home.css';
 import TopMenu from './menus/TopMenu';
 import BottomMenu from './menus/BottomMenu';
 import CalculatorNavigator from './menus/CalculatorNavigator';
+import BasicPreview from './previews/BasicPreview';
 
 function Home() {
 
@@ -25,7 +26,7 @@ function Home() {
         {/* Right Section: Calculator-Inspired Navigator */}
         <div className="design-section">
           {/* Display Section */}
-          <CalculatorNavigator/>
+          <BasicPreview/>
         </div>
       </div>
 

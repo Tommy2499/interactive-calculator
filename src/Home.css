@@ -15,21 +15,6 @@
     margin-bottom: 20px;
 }
 
-.home-button {
-    background-color: #FF9500;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.home-button:hover {
-    background-color: #e68900;
-    cursor: pointer !important;
-}
-
 .link-container {
     padding: 10px;
     gap: 10px;
@@ -101,70 +86,8 @@
     padding: 0px;
 }
 
-.calc-nav-container{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #1F2937;
-    border-radius: 48px;
-    padding: 40px;
-}
-
-/* Calculator Display */
-.calculator-display {
-    width: 100%;
-    max-width: 500px;
-    height: 60px;
-    background-color: #444;
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-/* Calculator Navigator */
-.calculator-navigator {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    width: 100%;
-    max-width: 500px;
-    animation: slide-in 0.8s ease-out;
-}
-
-/* Individual Cards */
-.card {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    background-color: #007BFF;
-    color: white;
-    font-size: 0.9rem;
-    font-weight: bold;
-    border-radius: 10px;
-    height: 80px;
-    text-align: left;
-    cursor: pointer;
-    text-decoration: none;
-    padding: 10px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-    background-color: #0056b3; /* Darker blue on hover */
-}
-
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 820px) {
     .home-content {
         flex-direction: column;
     }
@@ -172,10 +95,6 @@
     .info-section {
         align-items: center;
         text-align: center;
-    }
-
-    .calculator-navigator {
-        grid-template-columns: repeat(2, 1fr); /* Show 2 columns on smaller screens */
     }
 }
 

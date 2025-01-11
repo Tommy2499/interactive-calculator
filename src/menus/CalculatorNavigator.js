@@ -20,7 +20,7 @@ function CalculatorNavigator() {
 
     return (
         <div className='calc-nav-container'>
-            <div className="calculator-display">
+            <div className="nav-calculator-display">
                 {hoveredTool}
             </div>
 
@@ -30,7 +30,7 @@ function CalculatorNavigator() {
                 <Link
                     to={tool.path}
                     key={index}
-                    className="card"
+                    className="nav-card"
                     onMouseEnter={() => setHoveredTool(tool.name)}
                     onMouseLeave={() => setHoveredTool("Select a Tool")}
                 >
