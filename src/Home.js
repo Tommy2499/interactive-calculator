@@ -1,23 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
-import TopMenu from './TopMenu';
-import BottomMenu from './BottomMenu';
+import TopMenu from './menus/TopMenu';
+import BottomMenu from './menus/BottomMenu';
+import CalculatorNavigator from './menus/CalculatorNavigator';
 
 function Home() {
-  const [hoveredTool, setHoveredTool] = useState("Select a Tool");
-
-  const tools = [
-    { name: "Basic Calculator", path: "/basic-calculator" },
-    { name: "Loan Calculator", path: "/loan-calculator" },
-    { name: "BMI Calculator", path: "/bmi-calculator" },
-    { name: "Currency Converter", path: "/currency-converter" },
-    { name: "Unit Converter", path: "/unit-converter" },
-    { name: "Date Difference", path: "/date-difference" },
-    { name: "Percentage Calculator", path: "/percentage-calculator" },
-    { name: "Investment Calculator", path: "/investment-calculator" },
-    { name: "Scientific Calculator", path: "/scientific-calculator" },
-  ];
 
   return (
     <div className="home">
@@ -37,24 +25,7 @@ function Home() {
         {/* Right Section: Calculator-Inspired Navigator */}
         <div className="design-section">
           {/* Display Section */}
-          <div className="calculator-display">
-            {hoveredTool}
-          </div>
-
-          {/* Navigator Grid */}
-          <div className="calculator-navigator">
-            {tools.map((tool, index) => (
-              <Link
-                to={tool.path}
-                key={index}
-                className="card"
-                onMouseEnter={() => setHoveredTool(tool.name)}
-                onMouseLeave={() => setHoveredTool("Select a Tool")}
-              >
-                {tool.name}
-              </Link>
-            ))}
-          </div>
+          <CalculatorNavigator/>
         </div>
       </div>
 
@@ -62,24 +33,7 @@ function Home() {
         {/* Right Section: Calculator-Inspired Navigator */}
         <div className="design-section">
           {/* Display Section */}
-          <div className="calculator-display">
-            {hoveredTool}
-          </div>
-
-          {/* Navigator Grid */}
-          <div className="calculator-navigator">
-            {tools.map((tool, index) => (
-              <Link
-                to={tool.path}
-                key={index}
-                className="card"
-                onMouseEnter={() => setHoveredTool(tool.name)}
-                onMouseLeave={() => setHoveredTool("Select a Tool")}
-              >
-                {tool.name}
-              </Link>
-            ))}
-          </div>
+          <CalculatorNavigator/>
         </div>
         {/* Left Section */}
         <div className="info-section">

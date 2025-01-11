@@ -1,7 +1,7 @@
 import React from 'react';
 import './TopMenu.css'
 import { Link } from 'react-router-dom';
-import basename from './config.js';
+import basename from '../config.js';
 
 function TopMenu() {
 

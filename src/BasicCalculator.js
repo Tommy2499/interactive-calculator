@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import './App.css';
 import './BasicCalculator.css'
-import TopMenu from './TopMenu';
-import BottomMenu from './BottomMenu';
+import TopMenu from './menus/TopMenu';
+import BottomMenu from './menus/BottomMenu';
 
 function BasicCalculator() {
   const [input, setInput] = useState('');
