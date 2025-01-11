@@ -5,28 +5,20 @@ import TopMenu from './menus/TopMenu';
 import BottomMenu from './menus/BottomMenu';
 import CalculatorNavigator from './menus/CalculatorNavigator';
 import BasicPreview from './previews/BasicPreview';
+import mathbackground from './images/mathbackground.svg';
 
 function Home() {
 
   return (
     <div className="home">
-      {/* Top Menu */}
-      <TopMenu />
-
-      <div className="home-content">
-        {/* Left Section */}
+      <div className="home-box-1">
+        <TopMenu />
         <div className="info-section">
           <h1>Welcome to My Calculator App</h1>
           <p>
             Explore a variety of calculators and tools to meet your needs. 
             Select one of the options to get started!
           </p>
-        </div>
-
-        {/* Right Section: Calculator-Inspired Navigator */}
-        <div className="design-section">
-          {/* Display Section */}
-          <BasicPreview/>
         </div>
       </div>
 
