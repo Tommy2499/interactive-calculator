@@ -2,7 +2,6 @@
 .home {
     display: flex;
     flex-direction: column;
-    height: 100%;
     width: 100%;
 }
 
@@ -64,7 +63,7 @@
 }
 
 /* Left Section */
-.left-section {
+.info-section {
     flex: 2;
     display: flex;
     flex-direction: column;
@@ -78,20 +77,20 @@
     padding: 40px;
 }
 
-.left-section h1 {
+.info-section h1 {
     font-size: 2.5rem;
     color: #333;
     margin-bottom: 20px;
 }
 
-.left-section p {
+.info-section p {
     font-size: 1.2rem;
     color: #555;
     margin-bottom: 20px;
 }
 
 /* Right Section */
-.right-section {
+.design-section {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -161,7 +160,7 @@
         flex-direction: column;
     }
 
-    .left-section {
+    .info-section {
         align-items: center;
         text-align: center;
     }

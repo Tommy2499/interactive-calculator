@@ -72,38 +72,15 @@ button:active {
   background-color: #666;
 }
 
-.top-menu-container {
-  display: flex;
-  height: 36px;
-  background-color: #1F2937;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
-  padding: 10px 64px;
-  font-weight: 700;
-
+.nav-link {
+  text-decoration: none; /* Removes underline */
+  color: inherit; /* Matches the parent text color */
+  cursor: pointer; /* Adds a pointer cursor */
+  transition: color 0.3s ease; /* Optional hover effect */
 }
 
-.right-top-menu {
-  display: flex;
-  gap: 40px;
-  font-size: 16px;
-}
-
-.left-top-menu {
-  font-size: 24px;
-}
-
-.btm-menu-container {
-  display: flex;
-  height: 24px;
-  background-color: #1F2937;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 16px;
-  padding: 10px;
-  font-weight: 300;
+.nav-link:hover {
+  color: #007BFF; /* Change to your desired hover color */
 }
 
 /* Media Query for Mobile Screens */

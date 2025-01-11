@@ -26,7 +26,7 @@ function Home() {
 
       <div className="home-content">
         {/* Left Section */}
-        <div className="left-section">
+        <div className="info-section">
           <h1>Welcome to My Calculator App</h1>
           <p>
             Explore a variety of calculators and tools to meet your needs. 
@@ -35,7 +35,7 @@ function Home() {
         </div>
 
         {/* Right Section: Calculator-Inspired Navigator */}
-        <div className="right-section">
+        <div className="design-section">
           {/* Display Section */}
           <div className="calculator-display">
             {hoveredTool}
@@ -57,6 +57,41 @@ function Home() {
           </div>
         </div>
       </div>
+
+      <div className="home-content">
+        {/* Right Section: Calculator-Inspired Navigator */}
+        <div className="design-section">
+          {/* Display Section */}
+          <div className="calculator-display">
+            {hoveredTool}
+          </div>
+
+          {/* Navigator Grid */}
+          <div className="calculator-navigator">
+            {tools.map((tool, index) => (
+              <Link
+                to={tool.path}
+                key={index}
+                className="card"
+                onMouseEnter={() => setHoveredTool(tool.name)}
+                onMouseLeave={() => setHoveredTool("Select a Tool")}
+              >
+                {tool.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+        {/* Left Section */}
+        <div className="info-section">
+          <h1>Welcome to My Calculator App</h1>
+          <p>
+            Explore a variety of calculators and tools to meet your needs. 
+            Select one of the options to get started!
+          </p>
+        </div>
+    </div>
+
+        
 
       {/* Bottom Menu */}
       <BottomMenu />

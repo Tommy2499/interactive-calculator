@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css'
+import './TopMenu.css'
 import { Link } from 'react-router-dom';
 import basename from './config.js';
 
@@ -8,10 +8,10 @@ function TopMenu() {
     return (
         <div className='top-menu-container'>
             <div className='left-top-menu'>
-                <Link to={`${basename}/`}>Calc It</Link>
+                <Link to={`${basename}/`} className="nav-link">Calc It</Link>
             </div>
             <div className='right-top-menu'>
-                <Link to={`${basename}/`}>Calculators</Link>
+                <div>Calculators</div>
                 <div>About</div>
             </div>
         </div>

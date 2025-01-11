@@ -3,23 +3,36 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 100%;
+    height: 100vh;
     width: 100%;
+}
+
+.basic-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    width: 100%;
+    background-color: #1e1e1e;
 }
 
 /* Calculator Container */
 .device {
     display: flex;
     flex-direction: column;
-    background-color: #1e1e1e; /* Dark background for the app */
+    background-color: #1e1e1e;
+    justify-content: center;
     color: white;
     padding: 40px;
     border-radius: 15px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
-    width: 50vh; /* Proportional width */
-    max-width: 90%; /* Ensure it doesn’t exceed screen width */
-    margin: 20px auto; /* Adjust spacing on smaller screens */
+    width: 30%;
+    max-width: 90%;
+    height: 65vh; /* Height adjusts based on viewport height */
+    max-height: 90%; /* Prevent it from growing too large */
 }
+
 
 /* Display Styling */
 .display {
@@ -32,7 +45,6 @@
     justify-content: flex-end; /* Right-align text */
     align-items: center;
     margin-bottom: 20px;
-    height: 70px;
     overflow-x: auto; /* Ensure long numbers can scroll */
 }
 
@@ -46,7 +58,7 @@
 
 /* Button Styling */
 button {
-    height: 60px;
+    height: 9vh;
     font-size: 2rem;
     border-radius: 10px;
     background-color: #444;
@@ -55,20 +67,11 @@ button {
     transition: background-color 0.2s, transform 0.2s;
   }
 
-  @media (max-width: 768px) {
-    .basic-page {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        height: 100%
-    }
+@media (max-width: 820px) {
   .device {
     padding: 20px; /* Reduce padding to save space */
     margin: 10px;
-    max-width: 80%;
-  }
-  button{
-    height: 85px;
+    width: 80%;
+    max-width: 450px;
   }
 }

@@ -1,0 +1,13 @@
+.btm-menu-container {
+    display: flex;
+    height: 52px;
+    width: 100%;
+    background-color: #1F2937;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+    font-weight: 300;
+    box-sizing: border-box; /* Include padding in width calculation */
+  }
