@@ -7,6 +7,7 @@ import CalculatorNavigator from './menus/CalculatorNavigator';
 import BasicPreview from './previews/BasicPreview';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import BasicCalculatorIcon from './images/Basic-Calculator-Icon.svg';
 
 
 function Home() {
@@ -36,18 +37,15 @@ function Home() {
       </div>
 
       <div className="home-content" ref={calculatorSectionRef}>
-        {/* Right Section: Calculator-Inspired Navigator */}
-        <div className="design-section">
-          {/* Display Section */}
-          <CalculatorNavigator/>
-        </div>
-        {/* Left Section */}
         <div className="info-section">
           <h1>Welcome to My Calculator App</h1>
           <p>
             Explore a variety of calculators and tools to meet your needs. 
             Select one of the options to get started!
           </p>
+        </div>
+        <div className="design-section">
+          <img src={BasicCalculatorIcon} className='basic-icon'></img>
         </div>
     </div>
 

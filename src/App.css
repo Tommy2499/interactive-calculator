@@ -9,90 +9,11 @@
   width: 100%;
 }
 
-/* Button Styling */
-button {
-  height: 70px;
-  font-size: 2rem;
-  border-radius: 10px;
-  background-color: #444;
-  color: white;
-  border: none;
-  transition: background-color 0.2s, transform 0.2s;
-}
 
-button:hover {
-  background-color: #555;
-  cursor: pointer;
-}
-
-button:active {
-  background-color: #666;
-  transform: scale(0.95); /* Adds a slight press effect */
-}
-
-/* Operation Button Styling */
-.operation-btn {
-  background-color: #FF9500; /* Orange background for operations */
-  color: white;
-}
-
-.operation-btn:hover {
-  background-color: #e68900; /* Slightly darker orange on hover */
-}
-
-.operation-btn:active {
-  background-color: #b87700; /* Even darker orange on press */
-}
-
-/* Invisible Buttons */
-.invisible {
-  background-color: #1e1e1e;
-}
-
-.invisible:hover {
-  background-color: #1e1e1e;
-}
-
-/* Bottom Row Buttons */
-.bottom-row {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr); /* Single-column layout for bottom row */
-  gap: 10px; /* Add spacing between buttons */
-}
-
-.bottom-row button {
-  background-color: #888;
-}
-
-.bottom-row button:hover {
-  background-color: #777;
-}
-
-.bottom-row button:active {
-  background-color: #666;
-}
-
-.nav-link {
-  text-decoration: none; /* Removes underline */
-  color: inherit; /* Matches the parent text color */
-  cursor: pointer; /* Adds a pointer cursor */
-  transition: color 0.3s ease; /* Optional hover effect */
-}
-
-.nav-link:hover {
-  color: #007BFF; /* Change to your desired hover color */
-}
 
 /* Media Query for Mobile Screens */
 @media (max-width: 768px) {
   .App {
     height: fit-content;
-  }
-  .device {
-    padding: 20px; /* Reduce padding to save space */
-    margin: 10px;
-  }
-  button{
-    height: 85px;
   }
 }
