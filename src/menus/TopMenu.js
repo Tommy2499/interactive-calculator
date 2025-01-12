@@ -8,7 +8,7 @@ function TopMenu() {
     return (
         <div className='top-menu-container'>
             <div className='left-top-menu'>
-                <Link to={`${basename}/`} className="nav-link">Calc It</Link>
+                <Link to={`/`} className="nav-link">Calc It</Link>
             </div>
             <div className='right-top-menu'>
                 <div>Calculators</div>
