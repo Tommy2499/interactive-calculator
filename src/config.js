@@ -1,2 +1,2 @@
-const basename = process.env.NODE_ENV === 'production' ? '/interactive-calculator' : '';
+const basename = '';
 export default basename;
