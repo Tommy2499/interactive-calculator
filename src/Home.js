@@ -5,7 +5,6 @@ import TopMenu from './menus/TopMenu';
 import BottomMenu from './menus/BottomMenu';
 import CalculatorNavigator from './menus/CalculatorNavigator';
 import BasicPreview from './previews/BasicPreview';
-import mathbackground from './images/mathbackground.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
