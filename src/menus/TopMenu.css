@@ -1,6 +1,6 @@
 .top-menu-container {
     display: flex;
-    height: 52px;
+    height: 64px;
     width: 100%;
     background-color: #1F2937;
     align-items: center;
@@ -14,11 +14,11 @@
   .right-top-menu {
     display: flex;
     gap: 40px;
-    font-size: 16px;
+    font-size: 20px;
   }
   
   .left-top-menu {
-    font-size: 24px;
+    font-size: 32px;
   }
 
 @media (max-width: 820px) {
