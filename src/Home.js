@@ -3,83 +3,101 @@ import { Link } from 'react-router-dom';
 import './Home.css';
 import TopMenu from './menus/TopMenu';
 import BottomMenu from './menus/BottomMenu';
-import CalculatorNavigator from './menus/CalculatorNavigator';
-import BasicPreview from './previews/BasicPreview';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import './BasicCalculator.css'; // Include the CSS file
 import { ReactComponent as BasicCalculatorIcon } from './images/Basic-Calculator-Icon.svg';
 
-
-
 function Home() {
-
-  const calculatorSectionRef = useRef(null); // Create a reference to the calculator section
-  const [isVisible, setIsVisible] = useState(false);
-  const iconRef = useRef(null);
+  const sectionsRef = useRef([]); // Create a ref array for sections
+  const [visibleSections, setVisibleSections] = useState([]); // Track visibility for each section
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Check if the element is in view
-        if (entry.isIntersecting) {
-          setIsVisible(true); // Trigger the animation
-        }
-      },
-      { threshold: 0.1 } // Adjust the threshold as needed
-    );
+    const observers = sectionsRef.current.map((section, index) => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setVisibleSections((prev) => [...new Set([...prev, index])]); // Mark section as visible
+          }
+        },
+        { threshold: 0.1 } // Adjust as needed
+      );
 
-    // Observe the icon element
-    if (iconRef.current) {
-      observer.observe(iconRef.current);
-    };
+      if (section) observer.observe(section);
+      return observer;
+    });
+
     return () => {
-      // Cleanup observer on unmount
-      if (iconRef.current) {
-        observer.unobserve(iconRef.current);
-      }
+      // Cleanup observers
+      observers.forEach((observer) => observer.disconnect());
     };
   }, []);
 
-  // Scroll to the calculator section
+  // Scroll to the first calculator section
   const handleExploreClick = () => {
-    calculatorSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (sectionsRef.current[0]) {
+      sectionsRef.current[0].scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
     <div className="home">
+      {/* Title Section */}
       <div className="home-box-1">
         <TopMenu />
         <div className="title-section">
-          <div className='title'>Welcome to Calc It!</div>
-          <div className='subtitle'>
-            Your hub of of calculators and tools to meet your needs. 
-            Select one of the options to get started!
+          <div className="title">Welcome to Calc It!</div>
+          <div className="subtitle">
+            Your hub of calculators and tools to meet your needs. Select one of the options to get started!
           </div>
-          <div className='explore' onClick={handleExploreClick}>Explore</div>
+          <div className="explore" onClick={handleExploreClick}>Explore</div>
           <button className="explore-button" onClick={handleExploreClick}>
             <FontAwesomeIcon icon={faChevronDown} />
           </button>
         </div>
       </div>
 
-      <div className="home-content" ref={calculatorSectionRef}>
-        <div className="info-section">
-          <h1>Basic Calculator</h1>
-          <p>
-            Click on the icon to the right to use our basic calculator.
-            This computes basic addition, subtraction, multiplication, and division.
-          </p>
+      {/* Calculator Sections */}
+      <div className="home-box-2" ref={(el) => (sectionsRef.current[0] = el)}>
+        <div className="home-content">
+          <div className="info-section">
+            <h1>Basic Calculator</h1>
+            <p>
+              Click on the icon to the right to use our basic calculator. This computes basic addition, subtraction,
+              multiplication, and division.
+            </p>
+          </div>
+          <div
+            className={`design-section icon-slide-in ${
+              visibleSections.includes(0) ? 'icon-visible' : ''
+            }`}
+          >
+            <Link to="/basic-calculator" className="icon-link">
+              <BasicCalculatorIcon className="basic-icon" />
+            </Link>
+          </div>
         </div>
-        <div
-          ref={iconRef}
-          className={`design-section icon-slide-in ${isVisible ? 'icon-visible' : ''}`}
-        >
-          <Link to="/basic-calculator" className='icon-link'>
-            <BasicCalculatorIcon className='basic-icon' />
-          </Link>
+      </div>
+
+      <div className="home-box-3" ref={(el) => (sectionsRef.current[1] = el)}>
+        <div className="home-content">
+          <div
+            className={`design-section icon-slide-in-reverse ${
+              visibleSections.includes(1) ? 'icon-visible' : ''
+            }`}
+          >
+            <Link to="/basic-calculator" className="icon-link">
+              <BasicCalculatorIcon className="basic-icon" />
+            </Link>
+          </div>
+          <div className="info-section">
+            <h1>Another Calculator</h1>
+            <p>
+              Click on the icon to the left to use another calculator. This solves advanced calculations.
+            </p>
+          </div>
         </div>
-    </div>
+      </div>
+
       <BottomMenu />
     </div>
   );

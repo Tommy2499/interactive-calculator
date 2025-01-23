@@ -24,7 +24,7 @@
     padding: 20px;
 }
 
-.home-box-1{
+.home-box-1 {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -35,6 +35,14 @@
         url('./images/mathbackground.svg');
     background-size: cover; /* Scales the image to cover the entire div */
     position: relative; /* Ensures the pseudo-element is positioned relative to this div */
+}
+
+.home-box-2 {
+    background-color: #E5E7EB;
+}
+
+.home-box-3 {
+    background-color: #DDD;
 }
 
 .title-section {
@@ -186,12 +194,19 @@
     opacity: 0;
     transform: translateX(100%);
     transition: transform 0.8s ease, opacity 0.8s ease;
-  }
+}
+
+/* Initial state: hidden and out of view */
+.icon-slide-in-reverse {
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: transform 0.8s ease, opacity 0.8s ease;
+}
   
 /* Triggered state: visible and in place */
 .icon-visible {
-opacity: 1;
-transform: translateX(0);
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .icon-link {
@@ -218,7 +233,6 @@ transform: translateX(0);
     }
 
     .subtitle {
-        margin-bottom: 64px;
         font-size: 1.2rem;
     }
 
