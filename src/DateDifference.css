@@ -1,0 +1,99 @@
+/* DateDifference.css */
+
+.date-difference {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f9f9f9;
+    
+}
+
+.date-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    gap: 20px;
+    width: 50%;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+  
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #007BFF;
+}
+  
+.date-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+  
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+  
+label {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: #555;
+}
+  
+input[type="date"] {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+}
+  
+.calculate-button {
+    background-color: #007BFF;
+    width: 100%;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+.calculate-button:hover {
+    background-color: #0056b3;
+}
+  
+.result {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #e9f7fe;
+    border: 1px solid #b3e5fc;
+    border-radius: 5px;
+    width: 300px;
+    text-align: center;
+}
+  
+.result h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+  
+.result p {
+    font-size: 1.2rem;
+    margin: 0;
+    color: #333;
+}
+  

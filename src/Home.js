@@ -85,14 +85,15 @@ function Home() {
               visibleSections.includes(1) ? 'icon-visible' : ''
             }`}
           >
-            <Link to="/basic-calculator" className="icon-link">
+            <Link to="/date-difference" className="icon-link">
               <BasicCalculatorIcon className="basic-icon" />
             </Link>
           </div>
           <div className="info-section">
-            <h1>Another Calculator</h1>
+            <h1>Date Difference Calculator</h1>
             <p>
-              Click on the icon to the left to use another calculator. This solves advanced calculations.
+              Click on the icon to the left to use the date difference calculator. 
+              This tells you the difference in time between two dates.
             </p>
           </div>
         </div>
