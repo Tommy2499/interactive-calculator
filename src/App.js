@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Calculator from './BasicCalculator';
 import DateDifference from './DateDifference';
+import Trackulator from './Trackulator';
 import Home from './Home';
 import basename from './config';
 
@@ -18,6 +19,7 @@ function App() {
           {/* Define the route for the Calculator page */}
           <Route path="/basic-calculator" element={<Calculator />} />
           <Route path="/date-difference" element={<DateDifference />} />
+          <Route path="/trackulator" element={<Trackulator />} />
         </Routes>
       </div>
     </BrowserRouter>

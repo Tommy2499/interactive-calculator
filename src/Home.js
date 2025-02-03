@@ -99,6 +99,26 @@ function Home() {
         </div>
       </div>
 
+      <div className="home-box-2" ref={(el) => (sectionsRef.current[2] = el)}>
+        <div className="home-content">
+          <div className="info-section">
+            <h1>Trackulator</h1>
+            <p>
+              A basic calculator to calculate scores and convert times and distances in track and field.
+            </p>
+          </div>
+          <div
+            className={`design-section icon-slide-in ${
+              visibleSections.includes(2) ? 'icon-visible' : ''
+            }`}
+          >
+            <Link to="/trackulator" className="icon-link">
+              <BasicCalculatorIcon className="basic-icon" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
       <BottomMenu />
     </div>
   );
