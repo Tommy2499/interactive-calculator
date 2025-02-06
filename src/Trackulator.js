@@ -2,16 +2,31 @@ import React, { useState } from 'react';
 import './Trackulator.css';
 import TopMenu from './menus/TopMenu';
 import BottomMenu from './menus/BottomMenu';
+import eventMap from './EventMap.json';
+import coefficients2025 from './Coefficients2025.json'
 
 // TODO: Map inputs to stored values
 // TODO: Calculate points
 // TODO: Make UX intuitive
+
+function pointFormula(coefficients, mark){
+    let convFactor = coefficients[0]
+    let resShift = coefficients[1]
+    let ptShift = coefficients[2]
+
+    // Old equation: round(convFactor * (mark + resShift)^2 + ptShift)
+    // JS old: Math.round(convFactor * Math.pow(mark + resShift, 2) + ptShift)
+    // New equation: round()
+    let points = Math.round(convFactor * Math.pow(mark, 2) + resShift * mark + ptShift)
+    return points;
+}
 
 /**
  * Calculates the point value of a mark in an event.
  * 
  * If season is indoor, look for event with "sh" (short track).
  * If there is no "sh", take first instance of event.
+ * Extract coefficients from EventMap.json using gender, season, and event.
  * 
  * 
  * @param {*} season 
@@ -20,7 +35,26 @@ import BottomMenu from './menus/BottomMenu';
  * @param {*} mark 
  */
 function calcPoints(season, gender, event, mark){
-
+    gender = gender.toLowerCase();
+    mark = Number(mark)
+    const params = [season, gender, event, mark];
+    for (let param of params){
+        if (!param){
+            alert(`Error. No input value for ${param}`);
+            return;
+        }
+    }
+    let eventName = "";
+    if (season === "Indoor"){
+        eventName = eventMap[gender][season][event];
+    }
+    if (!eventName){
+        season = "Outdoor";
+        eventName = eventMap[gender][season][event];
+    }
+    const coefficients = coefficients2025[gender][eventName];
+    let points = pointFormula(coefficients, mark);
+    return points;
 }
 
 function Trackulator() {
@@ -35,6 +69,10 @@ function Trackulator() {
     const newEntry = { season, gender, event, mark, points };
     setHistory([newEntry, ...history.slice(0, 9)]);
   };
+
+  const handleCalc = () => {
+    setPoints(calcPoints(season, gender, event, mark))
+  }
 
   return (
     <div className="trackulator-container">
@@ -74,6 +112,7 @@ function Trackulator() {
                         <input type="text" value={points} onChange={(e) => setPoints(e.target.value)} placeholder="Enter points" />
                     </div>
                     <button onClick={handleSave} className="save-button">Save Entry</button>
+                    <button onClick={handleCalc} className="save-button">Calculate</button>
                 </div>
                 
                 <div className="history-section">
