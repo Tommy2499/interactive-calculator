@@ -3,6 +3,26 @@ import './Trackulator.css';
 import TopMenu from './menus/TopMenu';
 import BottomMenu from './menus/BottomMenu';
 
+// TODO: Map inputs to stored values
+// TODO: Calculate points
+// TODO: Make UX intuitive
+
+/**
+ * Calculates the point value of a mark in an event.
+ * 
+ * If season is indoor, look for event with "sh" (short track).
+ * If there is no "sh", take first instance of event.
+ * 
+ * 
+ * @param {*} season 
+ * @param {*} gender 
+ * @param {*} event 
+ * @param {*} mark 
+ */
+function calcPoints(season, gender, event, mark){
+
+}
+
 function Trackulator() {
   const [season, setSeason] = useState('Indoor');
   const [gender, setGender] = useState('Men');
