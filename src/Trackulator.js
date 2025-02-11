@@ -74,6 +74,10 @@ function Trackulator() {
     }
   };
 
+  const handleClearHistory = () => {
+    setHistory([]);
+  };
+
   return (
     <div className="trackulator-container">
         <TopMenu/>
@@ -112,6 +116,7 @@ function Trackulator() {
                         <input type="text" value={points} onChange={(e) => setPoints(e.target.value)} placeholder="Enter points" />
                     </div>
                     <button onClick={handleSave} className="save-button">Calculate</button>
+                    <button onClick={handleClearHistory} className="save-button">Clear History</button>
                 </div>
                 
                 <div className="history-section">
