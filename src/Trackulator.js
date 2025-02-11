@@ -66,13 +66,13 @@ function Trackulator() {
   const [history, setHistory] = useState([]);
 
   const handleSave = () => {
-    const newEntry = { season, gender, event, mark, points };
-    setHistory([newEntry, ...history.slice(0, 9)]);
+    const calculatedPoints = calcPoints(season, gender, event, mark);
+    setPoints(calculatedPoints);
+    if (calculatedPoints !== undefined) {
+      const newEntry = { season, gender, event, mark, points: calculatedPoints };
+      setHistory([newEntry, ...history.slice(0, 9)]);
+    }
   };
-
-  const handleCalc = () => {
-    setPoints(calcPoints(season, gender, event, mark))
-  }
 
   return (
     <div className="trackulator-container">
@@ -111,8 +111,7 @@ function Trackulator() {
                         <label>Points:</label>
                         <input type="text" value={points} onChange={(e) => setPoints(e.target.value)} placeholder="Enter points" />
                     </div>
-                    <button onClick={handleSave} className="save-button">Save Entry</button>
-                    <button onClick={handleCalc} className="save-button">Calculate</button>
+                    <button onClick={handleSave} className="save-button">Calculate</button>
                 </div>
                 
                 <div className="history-section">
