@@ -107,6 +107,6 @@ def compare_and_format_events(gender):
 
 
 #events("men")
-#events("women")
+events("women")
 #compare_events("women")
-compare_and_format_events("women")
+#compare_and_format_events("women")
