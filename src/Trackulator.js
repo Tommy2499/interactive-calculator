@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Trackulator.css';
 import TopMenu from './menus/TopMenu';
 import BottomMenu from './menus/BottomMenu';
@@ -64,6 +64,14 @@ function Trackulator() {
   const [mark, setMark] = useState('');
   const [points, setPoints] = useState('');
   const [history, setHistory] = useState([]);
+  const [eventOptions, setEventOptions] = useState([]);
+
+  useEffect(() => {
+    if (season && gender) {
+      const events = Object.keys(eventMap[gender.toLowerCase()][season]);
+      setEventOptions(events);
+    }
+  }, [season, gender]);
 
   const handleSave = () => {
     const calculatedPoints = calcPoints(season, gender, event, mark);
@@ -103,7 +111,12 @@ function Trackulator() {
                     
                     <div className="input-group">
                         <label>Event:</label>
-                        <input type="text" value={event} onChange={(e) => setEvent(e.target.value)} placeholder="Enter event" />
+                        <select value={event} onChange={(e) => setEvent(e.target.value)}>
+                          <option value="">Select event</option>
+                          {eventOptions.map((eventOption, index) => (
+                            <option key={index} value={eventOption}>{eventOption}</option>
+                          ))}
+                        </select>
                     </div>
                     
                     <div className="input-group">
