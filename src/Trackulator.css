@@ -10,29 +10,37 @@
     background-color: #f9f9f9;
     font-family: Arial, sans-serif;
     color: #333;
+    background-color: #F6F8FC;
   }
 
   .trackulator-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px;
+    padding-top: 40px;
   }
 
   .input-history-body{
     display: flex;
-    gap: 200px;
+    flex-direction: column;
+    align-items: center;
+    gap: 56px;
   }
 
   .trackulator-inputs{
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 400px;
+    padding: 24px;
+    border-radius: 24px;
+    background-color: #BBB;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
   }
   
   h1 {
     font-size: 2.5rem;
-    margin-bottom: 20px;
+    margin-bottom: 32px;
     color: #007BFF;
   }
   
@@ -61,6 +69,11 @@
     color: #aaa;
   }
 
+  .executive-buttons {
+    display: flex;
+    gap: 12px;
+  }
+
   .save-button {
     margin-top: 10px;
     padding: 10px 20px;
@@ -78,19 +91,22 @@
   }
 
   .history-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: 20px;
-    width: 80%;
-    max-width: 500px;
+    height: 40rem;
+    width: 100vw;
     background: #fff;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.0);
   }
 
   .history-section h2 {
     font-size: 1.5rem;
     color: #333;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    margin-top: 24px;
   }
 
   .history-section ul {
@@ -99,9 +115,12 @@
   }
 
   .history-section li {
-    padding: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
     background: #f1f1f1;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     border-radius: 5px;
     font-size: 1rem;
     color: #555;
