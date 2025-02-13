@@ -4,6 +4,8 @@ import TopMenu from './menus/TopMenu';
 import BottomMenu from './menus/BottomMenu';
 import eventMap from './EventMap.json';
 import coefficients2025 from './Coefficients2025.json'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 // TODO: Map inputs to stored values
 // TODO: Calculate points
@@ -93,23 +95,23 @@ function Trackulator() {
             <h1>Trackulator</h1>
             <div className='input-history-body'>
                 <div className='trackulator-inputs'>
-                    <div className="input-group">
+                    <div className="input-group s">
                         <label>Season:</label>
                         <select value={season} onChange={(e) => setSeason(e.target.value)}>
-                        <option value="Indoor">Indoor</option>
-                        <option value="Outdoor">Outdoor</option>
+                            <option value="Indoor">Indoor</option>
+                            <option value="Outdoor">Outdoor</option>
                         </select>
                     </div>
                     
-                    <div className="input-group">
+                    <div className="input-group s">
                         <label>Gender:</label>
                         <select value={gender} onChange={(e) => setGender(e.target.value)}>
-                        <option value="Men">Men</option>
-                        <option value="Women">Women</option>
+                            <option value="Men">Men</option>
+                            <option value="Women">Women</option>
                         </select>
                     </div>
                     
-                    <div className="input-group">
+                    <div className="input-group s">
                         <label>Event:</label>
                         <select value={event} onChange={(e) => setEvent(e.target.value)}>
                           <option value="">Select event</option>
