@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import './Trackulator.css';
 import TopMenu from './menus/TopMenu';
 import BottomMenu from './menus/BottomMenu';
 import eventMap from './EventMap.json';
 import coefficients2025 from './Coefficients2025.json'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 // TODO: Map inputs to stored values
 // TODO: Calculate points
@@ -93,6 +91,7 @@ function Trackulator() {
         <TopMenu/>
         <div className="trackulator-content">
             <h1>Trackulator</h1>
+            <div className="sep-line"/>
             <div className='input-history-body'>
                 <div className='trackulator-inputs'>
                     <div className="input-group s">
@@ -135,16 +134,34 @@ function Trackulator() {
                         <button onClick={handleClearHistory} className="save-button">Clear History</button>
                     </div>
                 </div>
-                
+                <div className="sep-line"/>
                 <div className="history-section">
                     <h2>History (Last 10 Entries)</h2>
-                    <ul>
+                    <div className="history-container">
+                        <div className="sep-line-sm"/>
+                        <div className="header">
+                            <div className="header-item">Season</div>
+                            <div className="header-item">Gender</div>
+                            <div className="header-item">Event</div>
+                            <div className="header-item">Mark</div>
+                            <div className="header-item">Points</div>
+                        </div>
+                        <div className="sep-line-sm"/>
+                        <ul>
                         {history.map((entry, index) => (
-                            <li key={index}>
-                                {entry.season} | {entry.gender} | {entry.event} | Mark: {entry.mark} | Points: {entry.points}
-                            </li>
+                            <div key={index}>
+                                <li>
+                                    <div className="history-data">{entry.season}</div>
+                                    <div className="history-data">{entry.gender}</div>
+                                    <div className="history-data">{entry.event}</div>
+                                    <div className="history-data">{entry.mark}</div>
+                                    <div className="history-data">{entry.points}</div>
+                                </li>
+                                {history.length - 1 > index && <div className="sep-line-xs"/>}
+                            </div>
                         ))}
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
