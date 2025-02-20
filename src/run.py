@@ -14,6 +14,13 @@ def get_events(gender):
         data = json.load(f)
     return set(data[gender].keys())  # Return events as a set
 
+def sorted_events(gender):
+    return sorted(list(get_events(gender)))
+
+def print_sorted_events(gender):
+    for event in sorted_events(gender):
+        print(f"\"\" : \"{event}\",")
+
 def compare_events(gender):
     """Compares the events of the specified gender with the other gender."""
     if gender not in ["men", "women"]:
@@ -101,12 +108,113 @@ def compare_and_format_events(gender):
     print(f"\nUnique events for {gender} (no assigned keys):")
     format_events(formatted_unique)
 
+def sort_map(gender, season):
+    with open("./src/EventMap.json") as f:
+        data = json.load(f)[gender][season]
+
+    track = []
+    jumps = []
+    throws = []
+    hurdles = []
+    walks = []
+    roads = []
+    multis = []
+    other = []
+    
+    for key, value in data.items():
+        if key.endswith("m") or key.endswith("Mile") or "Mixed" in key:
+            track.append({key: value})
+        elif "mH" in key or "Steeplechase" in key:
+            hurdles.append({key: value})
+        elif "Jump" in key or "Vault" in key:
+            jumps.append({key: value})
+        elif "Throw" in key or "Put" in key:
+            throws.append({key: value})
+        elif "Walk" in key:
+            walks.append({key: value})
+        elif "Road" in key:
+            roads.append({key: value})
+        elif "athlon" in key:
+            multis.append({key: value})
+        else:
+            other.append({key: value})
+
+    def sort_track(event):
+        str_event = list(event.keys())[0]
+        mile_key = "Mile" in str_event
+        key = str_event.split(" ")[0]
+        if "x" in key:
+            key = "1000" + key
+        bad_chars = ",mHx"
+        translation_table = str.maketrans("", "", bad_chars)
+        key = int(key.translate(translation_table))
+        if mile_key:
+            key *= 1609
+        if "Mixed" in str_event:
+            key += 1
+        return key
+    
+    def sort_km(event):
+        key = list(event.keys())[0].split("km")[0]
+        return int(key)
+    
+    def sort_walk(event):
+        str_event = list(event.keys())[0]
+        road = 1
+        if "Track" in str_event:
+            road = 0
+        return 1000 * sort_km(event) + road
+        
+    def sort_road(event):
+        str_event = list(event.keys())[0]
+        if "km" in str_event:
+            return 1000 * sort_km(event)
+        elif "Half Marathon" in str_event:
+            return 21097
+        elif "Marathon" in str_event:
+            return 42195
+        elif "Mile" in str_event:
+            return 1609 * (int(str_event.split(" ")[0]))
+        else:
+            return sort_track(event)
+        
+    def sort_jumps(event):
+        str_event = list(event.keys())[0]
+        if "Vault" in str_event:
+            return f"Vault {str_event}"
+        else:
+            return str_event
+
+    track = sorted(track, key = sort_track)
+    hurdles = sorted(hurdles, key = sort_track)
+    jumps = sorted(jumps, key = sort_jumps)
+    throws = sorted(throws, key = lambda x: list(x.keys())[0])
+    walks = sorted(walks, key = sort_walk)
+    roads = sorted(roads, key = sort_road)
+    multis = sorted(multis, key = lambda x: list(x.keys())[0])
+    other = sorted(other, key = lambda x: list(x.keys())[0])
+    
+
+    all = track + hurdles + jumps + throws + multis + roads + walks + other
+
+    return all
+
+def print_sorted_map(gender, season):
+    sorted_events = sort_map(gender, season)
+    for event in sorted_events:
+        key = list(event.keys())[0]
+        value = event[key]
+        print(f"\"{key}\" : \"{value}\",")
+
 # Example usage:
 # compare_and_format_events("women")
 # compare_and_format_events("men")
 
 
 #events("men")
-events("women")
+#events("women")
 #compare_events("women")
 #compare_and_format_events("women")
+
+#print_sorted_events("men")
+print_sorted_map("women", "Indoor")
