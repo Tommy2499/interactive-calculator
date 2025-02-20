@@ -58,7 +58,7 @@ function calcPoints(season, gender, event, mark){
 }
 
 function Trackulator() {
-  const [season, setSeason] = useState('Indoor');
+  const [season, setSeason] = useState('Outdoor');
   const [gender, setGender] = useState('Men');
   const [event, setEvent] = useState('');
   const [mark, setMark] = useState('');

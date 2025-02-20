@@ -196,6 +196,10 @@
     transition: transform 0.8s ease, opacity 0.8s ease;
 }
 
+.tricon {
+    border-radius: 21%;
+}
+
 /* Initial state: hidden and out of view */
 .icon-slide-in-reverse {
     opacity: 0;
