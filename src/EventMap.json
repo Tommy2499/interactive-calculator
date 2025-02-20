@@ -69,6 +69,9 @@
             "50km Walk (Road)" : "Road 50kmW"
         },
         "Indoor" : {
+            "50m" : "50m",
+            "55m" : "55m",
+            "60m" : "60m",
             "200m" : "200m sh",
             "300m" : "300m sh",
             "400m" : "400m sh",
@@ -85,6 +88,14 @@
             "4x200m" : "4x200m sh",
             "4x400m" : "4x400m sh",
             "4x400m Mixed" : "4x400mix sh",
+            "50mH" : "50mH",
+            "55mH" : "55mH",
+            "60mH" : "60mH",
+            "High Jump" : "HJ",
+            "Long Jump" : "LJ",
+            "Triple Jump" : "TJ",
+            "Pole Vault" : "PV",
+            "Shot Put" : "SP",
             "Heptathlon" : "Hept. sh"
         }
     },
@@ -158,6 +169,9 @@
             "50km Walk (Road)" : "Road 50kmW"
         },
         "Indoor": {
+            "50m" : "50m",
+            "55m" : "55m",
+            "60m" : "60m",
             "200m" : "200m sh",
             "300m" : "300m sh",
             "400m" : "400m sh",
@@ -174,6 +188,14 @@
             "4x200m" : "4x200m sh",
             "4x400m" : "4x400m sh",
             "4x400m Mixed" : "4x400mix sh",
+            "50mH" : "50mH",
+            "55mH" : "55mH",
+            "60mH" : "60mH",
+            "High Jump" : "HJ",
+            "Long Jump" : "LJ",
+            "Triple Jump" : "TJ",
+            "Pole Vault" : "PV",
+            "Shot Put" : "SP",
             "Pentathlon" : "Pent. sh"
         }
     }
