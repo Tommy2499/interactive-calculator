@@ -5,10 +5,6 @@ import BottomMenu from './menus/BottomMenu';
 import eventMap from './EventMap.json';
 import coefficients2025 from './Coefficients2025.json'
 
-// TODO: Map inputs to stored values
-// TODO: Calculate points
-// TODO: Make UX intuitive
-
 function pointFormula(coefficients, mark){
     let convFactor = coefficients[0]
     let resShift = coefficients[1]
@@ -57,6 +53,51 @@ function calcPoints(season, gender, event, mark){
     return points;
 }
 
+function markFormula(coefficients, points){
+    let convFactor = coefficients[0]
+    let resShift = coefficients[1]
+    let ptShift = coefficients[2]
+
+    // Point formula:
+    // let points = Math.round(convFactor * Math.pow(mark, 2) + resShift * mark + ptShift)
+    // Change points equation to solve for mark
+    // We have  0 = ax^2 + bx + c
+    // Where    a = convFactor
+    //          b = resShift
+    //          c = ptShift - points
+    //          x = mark
+    // Solve for x using quadratic formula
+    //          x = (-b +- sqrt(b^2 - 4ac)) / 2a
+    //          mark = (-resShift +- sqrt(resShift^2 - 4 * convFactor * (ptShift - points))) / (2 * convFactor)
+    // Reformat for JavaScript and make compatible for scoring tables
+    //          let mark = Math.round((-resShift + Math.sqrt(Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points))) / (2 * convFactor)).toFixed(2)
+    let mark = (Math.round((-resShift - Math.sqrt(Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points))) / (2 * convFactor) * 100) / 100).toFixed(2)
+    return mark;
+}
+
+function calcMark(season, gender, event, points){
+    gender = gender.toLowerCase();
+    points = Number(points)
+    const params = [season, gender, event, points];
+    for (let param of params){
+        if (!param){
+            alert(`Error. No input value for ${param}`);
+            return;
+        }
+    }
+    let eventName = "";
+    if (season === "Indoor"){
+        eventName = eventMap[gender][season][event];
+    }
+    if (!eventName){
+        season = "Outdoor";
+        eventName = eventMap[gender][season][event];
+    }
+    const coefficients = coefficients2025[gender][eventName];
+    let mark = markFormula(coefficients, points);
+    return mark;
+}
+
 function Trackulator() {
   const [season, setSeason] = useState('Outdoor');
   const [gender, setGender] = useState('Men');
@@ -73,11 +114,20 @@ function Trackulator() {
     }
   }, [season, gender]);
 
-  const handleSave = () => {
+  const handleSavePoints = () => {
     const calculatedPoints = calcPoints(season, gender, event, mark);
     setPoints(calculatedPoints);
     if (calculatedPoints !== undefined) {
       const newEntry = { season, gender, event, mark, points: calculatedPoints };
+      setHistory([newEntry, ...history.slice(0, 9)]);
+    }
+  };
+
+  const handleSaveMarks = () => {
+    const calculatedMark = calcMark(season, gender, event, points);
+    setMark(calculatedMark);
+    if (calculatedMark !== undefined) {
+      const newEntry = { season, gender, event, mark: calculatedMark, points };
       setHistory([newEntry, ...history.slice(0, 9)]);
     }
   };
@@ -130,7 +180,8 @@ function Trackulator() {
                         <input type="text" value={points} onChange={(e) => setPoints(e.target.value)} placeholder="Enter points" />
                     </div>
                     <div className="executive-buttons">
-                        <button onClick={handleSave} className="save-button">Calculate</button>
+                        <button onClick={handleSavePoints} className="save-button">Calculate Points</button>
+                        <button onClick={handleSaveMarks} className="save-button">Calculate Mark</button>
                         <button onClick={handleClearHistory} className="save-button">Clear History</button>
                     </div>
                 </div>
