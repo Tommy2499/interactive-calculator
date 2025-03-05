@@ -5,6 +5,88 @@ import BottomMenu from './menus/BottomMenu';
 import eventMap from './EventMap.json';
 import coefficients2025 from './Coefficients2025.json'
 
+const inchToM = 1 / 39.3700787402;
+const ftToM = inchToM * 12;
+const minToSec = 60;
+const hrToSec = 3600;
+
+function timeToSeconds(mark){
+    let sections = mark.split(":");
+    let seconds = Number(sections.at(-1));
+    let minutes = Number(sections.at(-2));
+    let totalSeconds = minutes * minToSec + seconds;
+    if (sections.length > 2){
+        let hours = Number(sections.at(-3));
+        totalSeconds += hours * hrToSec;
+    }
+    return totalSeconds
+
+}
+
+/**
+ * 
+ * @param {string} mark 
+ * @returns {number} meters
+ */
+function feetToMeters(mark){
+
+    mark = " " + mark + " "
+    let iIn = mark.indexOf("\"");
+    let iFt = mark.indexOf("\'");
+    let inches = 0;
+    let feet = 0;
+    let sections = mark.split(/['"]/);
+
+    if (iIn != -1){
+        if (iFt != -1){
+            if (iFt < iIn){
+                feet = sections[0];
+                inches = sections[1];
+            }
+            else{
+                feet = sections[1];
+                inches = sections[0];
+            }
+        }
+        else{
+            inches = sections[0]
+        }
+    }
+    else if (iFt != -1){
+        feet = sections[0]
+        inches = sections[1]
+    }
+
+    let meters = feet * ftToM + inches * inchToM
+
+    return meters;
+}
+
+function formatMetric(mark){
+    if (mark.endsWith("cm")){
+        mark = Number(mark.substring(0, mark.length - 2)) / 100;
+    }
+    else if (mark.endsWith("m")){
+        mark = mark.substring(0, mark.length - 1);
+    }
+    return Number(mark);
+}
+
+function convMark(mark){
+    if (mark.includes(":")){
+        return timeToSeconds(mark);
+    }
+    else if (mark.includes("\'") || mark.includes("\"")){
+        return feetToMeters(mark);
+    }
+    else if (mark.endsWith("m")){
+        return formatMetric(mark);
+    }
+    else{
+        return Number(mark);
+    }
+}
+
 function pointFormula(coefficients, mark){
     let convFactor = coefficients[0]
     let resShift = coefficients[1]
@@ -25,14 +107,15 @@ function pointFormula(coefficients, mark){
  * Extract coefficients from EventMap.json using gender, season, and event.
  * 
  * 
- * @param {*} season 
- * @param {*} gender 
- * @param {*} event 
- * @param {*} mark 
+ * @param {string} season 
+ * @param {string} gender 
+ * @param {string} event 
+ * @param {string} mark 
+ * @returns {Number} points
  */
 function calcPoints(season, gender, event, mark){
     gender = gender.toLowerCase();
-    mark = Number(mark)
+    mark = convMark(mark)
     const params = [season, gender, event, mark];
     for (let param of params){
         if (!param){
@@ -101,7 +184,7 @@ function calcMark(season, gender, event, points){
 function Trackulator() {
   const [season, setSeason] = useState('Outdoor');
   const [gender, setGender] = useState('Men');
-  const [event, setEvent] = useState('');
+  const [event, setEvent] = useState('100m');
   const [mark, setMark] = useState('');
   const [points, setPoints] = useState('');
   const [history, setHistory] = useState([]);
