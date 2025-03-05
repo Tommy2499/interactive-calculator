@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { ReactComponent as BasicCalculatorIcon } from './images/Basic-Calculator-Icon.svg';
 import { ReactComponent as TrackulatorIcon } from './images/Trackulator-Icon.svg';
+import { ReactComponent as DateDifferenceIcon } from './images/Date-Difference-Icon.svg'
 
 function Home() {
   const sectionsRef = useRef([]); // Create a ref array for sections
@@ -87,7 +88,7 @@ function Home() {
             }`}
           >
             <Link to="/date-difference" className="icon-link">
-              <BasicCalculatorIcon className="basic-icon" />
+              <DateDifferenceIcon className="basic-icon dicon" />
             </Link>
           </div>
           <div className="info-section">
