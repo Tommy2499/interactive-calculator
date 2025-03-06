@@ -1,13 +1,23 @@
+#btm-overall-container{
+  width: 100vw;
+}
+
 .btm-menu-container {
-    display: flex;
-    height: 64px;
-    width: 100%;
-    background-color: #1F2937;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 16px;
-    padding: 10px;
-    font-weight: 300;
-    box-sizing: border-box; /* Include padding in width calculation */
-  }
+  display: flex;
+  height: 72px;
+  width: 100%;
+  background-color: #1F2937;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  font-weight: 300;
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.border-line {
+  height: 4px;
+  width: 100%;
+  background-color: #007BFF;
+}
