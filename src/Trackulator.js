@@ -227,7 +227,6 @@ function Trackulator() {
         <h1>Trackulator</h1>
             <div className="sep-line"/>
             <div className='description'>
-                
                 <p>
                     This calculates a score based on how impressive
                     a certain time or distance is in a certain track

@@ -11,16 +11,14 @@ function TopMenu() {
                 </div>
                 <div className='right-top-menu'>
                     <div className='dropdown'>
-                        <div className='dropdown-title'>
-                            <Link to={`/`} className='nav-link'>Calculators</Link>
-                        </div>
+                        <Link to={`/`} className='nav-link dropdown-title'>Calculators</Link>
                         <div className='dropdown-content'>
                             <Link to={`/basic-calculator`} className="dropdown-link" id="first-dropdown">Basic Calculator</Link>
                             <Link to={`/date-difference`} className="dropdown-link">Date Difference</Link>
                             <Link to={`/trackulator`} className="dropdown-link">Trackulator</Link>
                         </div>
                     </div>
-                    <div>About</div>
+                    <Link to={'/about'} className='nav-link'>About</Link>
                 </div>
             </div>
             <div className='border-line'/>
