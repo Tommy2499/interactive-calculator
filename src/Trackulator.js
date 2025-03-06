@@ -223,7 +223,23 @@ function Trackulator() {
     <div className="trackulator-container">
         <TopMenu/>
         <div className="trackulator-content">
-            <h1>Trackulator</h1>
+            
+        <h1>Trackulator</h1>
+            <div className="sep-line"/>
+            <div className='description'>
+                
+                <p>
+                    This calculates a score based on how impressive
+                    a certain time or distance is in a certain track
+                    and field event. Conversely, it can calculate an
+                    equivalent mark given a point score. The more
+                    points a mark scores, the more impressive the mark
+                    is. These points are calculated by polynomial
+                    regression equations that correlate to World
+                    Athletics scoring tables. These tables are only
+                    intended to be accurate between 0 and 1400 points.
+                </p>
+            </div>
             <div className="sep-line"/>
             <div className='input-history-body'>
                 <div className='trackulator-inputs'>
