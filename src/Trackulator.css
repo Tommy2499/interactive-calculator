@@ -150,13 +150,6 @@ input::placeholder {
   padding-bottom: 12px;
 }
 
-.sep-line {
-  background-color: #007BFF;
-  height: 4px;
-  width: 60%;
-  margin: 24px;
-}
-
 .sep-line-sm {
   background-color: #AAA;
   height: 2px;

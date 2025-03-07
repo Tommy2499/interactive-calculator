@@ -9,7 +9,12 @@
   width: 100%;
 }
 
-
+.sep-line {
+  background-color: #007BFF;
+  height: 4px;
+  width: 60%;
+  margin: 24px;
+}
 
 /* Media Query for Mobile Screens */
 @media (max-width: 768px) {
