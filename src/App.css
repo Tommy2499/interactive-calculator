@@ -16,6 +16,17 @@
   margin: 24px;
 }
 
+p {
+  text-align: left;
+  font-size: 1.1rem;
+  line-height: 130%;
+}
+
+li {
+  font-size: 1rem;
+  line-height: 130%;
+}
+
 /* Media Query for Mobile Screens */
 @media (max-width: 768px) {
   .App {

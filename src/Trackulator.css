@@ -1,4 +1,4 @@
-/* Trackulator.css */
+@import url('./App.css');
 
 .trackulator-container {
   display: flex;
