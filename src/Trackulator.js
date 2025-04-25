@@ -154,7 +154,7 @@ function markFormula(coefficients, points){
     //          mark = (-resShift +- sqrt(resShift^2 - 4 * convFactor * (ptShift - points))) / (2 * convFactor)
     // Reformat for JavaScript and make compatible for scoring tables
     //          let mark = Math.round((-resShift + Math.sqrt(Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points))) / (2 * convFactor)).toFixed(2)
-    let mark = (Math.round((-resShift - Math.sqrt(Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points))) / (2 * convFactor) * 100) / 100).toFixed(2)
+    let mark = (Math.round(Math.min(Math.abs(-resShift - Math.sqrt(Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points))) / (2 * convFactor), Math.abs(-resShift + Math.sqrt(Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points))) / (2 * convFactor)) * 100) / 100).toFixed(2)
     return mark;
 }
 
