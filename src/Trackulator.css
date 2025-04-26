@@ -192,21 +192,26 @@ p {
   line-height: 130%;
 }
 
-@media (max-width: 820px) {
+@media (max-width: 600px) {
 
-  .sep-line {
-    width: 75%;
-  }
 
-  .description {
-    width: 80%;
-  }
 
   .executive-buttons {
     flex-direction: column;
   }
 
   .history-container {
+    width: 80%;
+  }
+}
+
+@media (max-width: 1200px) {
+  
+  .sep-line {
+    width: 75%;
+  }
+
+  .description {
     width: 80%;
   }
 }
