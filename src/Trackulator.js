@@ -9,6 +9,7 @@ const inchToM = 1 / 39.3700787402;
 const ftToM = inchToM * 12;
 const minToSec = 60;
 const hrToSec = 3600;
+const apostrophes = ["'", "’", "‘"];
 
 /**
  * Converts time in HH:MM:SS format to total seconds.
@@ -35,10 +36,17 @@ function timeToSeconds(mark){
 function feetToMeters(mark){
     mark = " " + mark + " ";
     let iIn = mark.indexOf("\"");
-    let iFt = mark.indexOf("\'");
+    let iFt = -1;
+    for (const ap of apostrophes) {
+        const index = mark.indexOf(ap);
+        if (index !== -1) {
+            iFt = index;
+            break;
+        }
+    }
     let inches = 0;
     let feet = 0;
-    let sections = mark.split(/['"]/);
+    let sections = mark.split(/['"’‘]/);
 
     if (iIn != -1){
         if (iFt != -1){
@@ -89,7 +97,7 @@ function convMark(mark){
     if (mark.includes(":")){
         return timeToSeconds(mark);
     }
-    else if (mark.includes("\'") || mark.includes("\"")){
+    else if (apostrophes.some(ap => mark.includes(ap)) || mark.includes("\"")){
         return feetToMeters(mark);
     }
     else if (mark.endsWith("m")){
