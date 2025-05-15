@@ -1,5 +1,7 @@
+/* Imports base styling from App.css */
 @import url('./App.css');
 
+/* Container for the entire Trackulator application */
 .trackulator-container {
   display: flex;
   flex-direction: column;
@@ -12,6 +14,7 @@
   background-color: #F6F8FC;
 }
 
+/* Main content area for central trackulator elements */
 .trackulator-content {
   display: flex;
   flex-direction: column;
@@ -19,12 +22,14 @@
   padding-top: 40px;
 }
 
+/* Handles the layout of inputs and history content */
 .input-history-body{
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* Container that holds and styles the main Trackulator inputs */
 .trackulator-inputs{
   display: flex;
   flex-direction: column;
@@ -43,6 +48,7 @@ h1 {
   color: #333;
 }
 
+/* Base styling for input groups */
 .input-group {
   display: flex;
   flex-direction: column;
@@ -57,6 +63,7 @@ label {
   margin-bottom: 8px;
 }
 
+/* User input boxes */
 select, input[type="text"] {
   padding: 10px;
   font-size: 1rem;
@@ -89,6 +96,7 @@ input::placeholder {
   color: #aaa;
 }
 
+/* Style for the buttons used to calculate or clear data */
 .executive-buttons {
   display: flex;
   gap: 12px;
@@ -112,6 +120,7 @@ input::placeholder {
   background-color: #0056b3;
 }
 
+/* Styles the 'history-section' containing the log of previous entries */
 .history-section {
   display: flex;
   flex-direction: column;
@@ -144,6 +153,7 @@ input::placeholder {
   color: #333;
 }
 
+/* Styles each piece of data in the history list */
 .history-data {
   width: 20%;
   padding-left: 16px;
@@ -163,12 +173,14 @@ input::placeholder {
   width: 100%;
 }
 
+/* Container for the history's header and logs */
 .history-container {
   display: flex;
   flex-direction: column;
   width: 60%;
 }
 
+/* High-level container to organize history headers */
 .header {
   display: flex;
   width: 100%;
@@ -182,6 +194,7 @@ input::placeholder {
   padding-bottom: 16px;
 }
 
+/* Layout adjustments and styling for description text */
 .description {
   width: 50%
 }
@@ -192,10 +205,8 @@ p {
   line-height: 130%;
 }
 
+/* Adjusts workflow for smaller screens */
 @media (max-width: 600px) {
-
-
-
   .executive-buttons {
     flex-direction: column;
   }
@@ -205,8 +216,8 @@ p {
   }
 }
 
+/* Adjusts widths for medium-sized screens */
 @media (max-width: 1200px) {
-  
   .sep-line {
     width: 75%;
   }
