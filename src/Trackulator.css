@@ -141,6 +141,7 @@ input::placeholder {
 .history-section ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
   height: 30rem;
   width: 100%;
 }
