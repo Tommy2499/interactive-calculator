@@ -34,37 +34,37 @@ function DateDifference() {
     <div className="date-difference">
         <TopMenu/>
         <div className="date-content">
-        <h1>Date Difference Calculator</h1>
-        <div className="date-inputs">
-            <div className="input-group">
-                <label htmlFor="start-date">Start Date:</label>
-                <input
-                    type="date"
-                    id="start-date"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                />
-            </div>
-            <div className="input-group">
-                <label htmlFor="end-date">End Date:</label>
-                <input
-                    type="date"
-                    id="end-date"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                />
-                </div>
-        </div>
-        <button className="calculate-button" onClick={calculateDifference}>
-            Calculate Difference
-        </button>
+          <h1 id='date-difference-title'>Date Difference Calculator</h1>
+          <div className="date-inputs">
+              <div className="input-group">
+                  <label htmlFor="start-date">Start Date:</label>
+                  <input
+                      type="date"
+                      id="start-date"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                  />
+              </div>
+              <div className="input-group">
+                  <label htmlFor="end-date">End Date:</label>
+                  <input
+                      type="date"
+                      id="end-date"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                  />
+                  </div>
+          </div>
+          <button className="calculate-button" onClick={calculateDifference}>
+              Calculate Difference
+          </button>
 
-        {difference && (
-            <div className="result">
-            <h2>Difference:</h2>
-            <p>{difference.years} Years, {difference.months} Months, {difference.days} Days</p>
-            </div>
-        )}
+          {difference && (
+              <div className="result">
+              <h2>Difference:</h2>
+              <p>{difference.years} Years, {difference.months} Months, {difference.days} Days</p>
+              </div>
+          )}
       </div>
       <BottomMenu/>
     </div>
