@@ -18,7 +18,7 @@ function BasicCalculator() {
 
   const handleEvaluate = () => {
     try {
-      setInput(eval(input).toFixed(6).toString());
+      setInput((Math.round(eval(input) * 1000000) / 1000000).toString());
     } catch (error) {
       setInput('Error');
     }
