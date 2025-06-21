@@ -18,7 +18,7 @@ function BasicCalculator() {
 
   const handleEvaluate = () => {
     try {
-      setInput(eval(input).toString());
+      setInput(eval(input).toFixed(6).toString());
     } catch (error) {
       setInput('Error');
     }
