@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_3" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080">
+  <path d="M0,883.7c0,108.4,87.9,196.3,196.3,196.3h687.4c108.4,0,196.3-87.9,196.3-196.3v-343.7H0v343.7Z" style="fill: #fff;"/>
+  <path d="M1080,196.3c0-108.4-87.9-196.3-196.3-196.3H196.3C87.9,0,0,87.9,0,196.3v343.7h1080V196.3Z" style="fill: #fff;"/>
+  <text transform="translate(359.9 447.8)" style="font-family: ArialMT, Arial; font-size: 320px;"><tspan x="0" y="0">24</tspan></text>
+  <rect x="0" y="540" width="1080" height="146" style="fill: #ee534a;"/>
+  <text transform="translate(428.4 649)" style="fill: #fff; font-family: Arial-Black, &apos;Arial Black&apos;; font-size: 96px; font-weight: 800;"><tspan x="0" y="0">OCT</tspan></text>
+  <text transform="translate(355.9 993.8)" style="font-family: ArialMT, Arial; font-size: 320px;"><tspan x="0" y="0">17</tspan></text>
+  <path d="M7.6,146h1064.8C1050.3,62,973.9,0,882.9,0H197.1C106.1,0,29.7,62,7.6,146Z" style="fill: #ee534a;"/>
+  <text transform="translate(434.5 110.3)" style="fill: #fff; font-family: Arial-Black, &apos;Arial Black&apos;; font-size: 96px; font-weight: 800;"><tspan x="0" y="0">JUL</tspan></text>
+</svg>
