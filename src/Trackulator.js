@@ -23,9 +23,19 @@ function timeToSeconds(mark){
     let totalSeconds = minutes * minToSec + seconds;
     if (sections.length > 2){
         let hours = Number(sections.at(-3));
+        if (hours < 0) {
+            return NaN;
+        }
         totalSeconds += hours * hrToSec;
     }
-    return totalSeconds;
+    if (seconds < 0 || minutes < 0) { 
+        return NaN;
+    }
+    return hundredths(totalSeconds);
+}
+
+function hundredths(num) {
+    return Math.round(num * 100) / 100;
 }
 
 /**
@@ -100,11 +110,11 @@ function convMark(mark){
     else if (apostrophes.some(ap => mark.includes(ap)) || mark.includes("\"")){
         return feetToMeters(mark);
     }
-    else if (mark.endsWith("m")){
+    else if (mark.length > 1 && mark.endsWith("m")){
         return formatMetric(mark);
     }
     else{
-        return Number(mark);
+        return hundredths(Number(mark));
     }
 }
 
@@ -136,14 +146,6 @@ function pointFormula(coefficients, mark){
  */
 function calcPoints(season, gender, event, mark){
     gender = gender.toLowerCase();
-    mark = convMark(mark);
-    const params = [season, gender, event, mark];
-    for (let param of params){
-        if (!param){
-            alert(`Error. No input value for ${param}`);
-            return;
-        }
-    }
     let eventName = "";
     if (season === "Indoor"){
         eventName = eventMap[gender][season][event];
@@ -186,6 +188,66 @@ function markFormula(coefficients, points){
 }
 
 /**
+ * Converts seconds to a formatted time string (SS.SS, MM:SS.SS, or H:MM:SS.SS).
+ * @param {number} seconds - Time in seconds.
+ * @returns {string} Formatted time string.
+ */
+function secondsToTime(seconds){
+
+    seconds = Math.round(seconds * 100) / 100;
+    if (seconds < 60) {
+        return seconds.toFixed(2);
+    }
+
+    let hours = 0, minutes = 0;
+    let result = ""
+
+    if (seconds >= 3600) {
+        hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        result = `${hours}:`
+    } 
+    if (seconds >= 60) {
+        minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+        if (hours > 0) {
+            result += `${String(minutes).padStart(2, "0")}:`
+        }
+        else {
+            result += `${minutes}:`
+        }
+    } 
+    else if (hours){
+        result += "00:"
+    }
+
+    result += String(seconds.toFixed(2)).padStart(5, "0")
+    return result;
+}
+
+/**
+ * Formats a numeric mark for display based on event type.
+ * Running events are formatted as time (MM:SS.SS or H:MM:SS.SS).
+ * Field events are formatted as distance (X.XXm).
+ * @param {number} mark - Numeric mark value (meters or seconds).
+ * @param {string} event - Event name to determine formatting type.
+ * @returns {string} Formatted mark string.
+ */
+function formatMark(mark, event){
+    const regex = /\d/;
+    // Running event
+    if (regex.test(event) || event.includes("Marathon")) {
+        return secondsToTime(Number(mark));
+    }
+    // Multi event
+    if (event.endsWith("athlon")) {
+        return String(Math.round(mark));
+    }
+    // Field event
+    return `${hundredths(mark).toFixed(2)}m`;
+}
+
+/**
  * Retrieves the appropriate coefficients and calculates a mark (time/distance).
  * @param {string} season - "Indoor" or "Outdoor".
  * @param {string} gender - "men" or "women".
@@ -196,13 +258,6 @@ function markFormula(coefficients, points){
 function calcMark(season, gender, event, points){
     gender = gender.toLowerCase();
     points = Number(points);
-    const params = [season, gender, event, points];
-    for (let param of params){
-        if (!param){
-            alert(`Error. No input value for ${param}`);
-            return;
-        }
-    }
     let eventName = "";
     if (season === "Indoor"){
         eventName = eventMap[gender][season][event];
@@ -217,6 +272,65 @@ function calcMark(season, gender, event, points){
 }
 
 /**
+ * Validates user input for mark or points conversion.
+ * @param {string} season - Selected season ("Indoor" or "Outdoor").
+ * @param {string} gender - Selected gender ("Men" or "Women").
+ * @param {string} event - Selected event name.
+ * @param {string|number} input - User-entered mark or points value.
+ * @param {boolean} isCalcPoints - True if calculating points, false if calculating mark.
+ * @returns {boolean} True if all inputs are valid, false otherwise.
+ */
+function isValidEntry(season, gender, event, input, isCalcPoints){
+
+    // TODO: Add selection validation for season, gender, and event
+
+    // Check for null/empty inputs
+    if (!season) {
+        alertNull("season");
+        return false;
+    }
+    if (!gender) {
+        alertNull("gender");
+        return false;
+    }
+    if (!event) {
+        alertNull("event");
+        return false;
+    }
+    if (input === "" || input === null || input === undefined) {
+        alertNull(isCalcPoints ? "mark" : "points");
+        return false;
+    }
+
+    // Validate points range (0–1400)
+    const numInput = Number(input);
+    if (!isCalcPoints && (Number.isNaN(numInput) || numInput < 0 || numInput > 1400)) {
+        alertRange("Points", 0, 1400);
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Alerts the user that a required input field is missing.
+ * @param {string} label - The name of the missing field.
+ */
+function alertNull(label){
+    alert(`Error. No input value for ${label}.`);
+}
+
+/**
+ * Alerts the user that an input is outside the valid range.
+ * @param {string} label - The name of the field with invalid range.
+ * @param {number} start - Minimum valid value.
+ * @param {number} end - Maximum valid value.
+ */
+function alertRange(label, start, end) {
+    alert(`Error. ${label} must be between ${start} and ${end}.`)
+}
+
+/**
  * Main React component with input fields, calculators, and a history list.
  * @returns {JSX.Element} The rendered Trackulator UI.
  */
@@ -225,6 +339,7 @@ function Trackulator() {
   const [gender, setGender] = useState('Men');
   const [event, setEvent] = useState('100m');
   const [mark, setMark] = useState('');
+  const [dispMark, setDispMark] = useState('');
   const [points, setPoints] = useState('');
   const [history, setHistory] = useState([]);
   const [eventOptions, setEventOptions] = useState([]);
@@ -238,22 +353,40 @@ function Trackulator() {
 
   // Saves the entered mark as points and updates history if valid
   const handleSavePoints = () => {
-    const calculatedPoints = calcPoints(season, gender, event, mark);
+    if (!isValidEntry(season, gender, event, dispMark, true)) return;
+
+    const convertedMark = convMark(dispMark);
+    if (Number.isNaN(convertedMark) || convertedMark < 0) {
+        alert(`Error. Invalid mark.`)
+        return;
+    }
+    setMark(convertedMark)
+
+    const formattedMark = formatMark(convertedMark, event);
+    setDispMark(formattedMark);
+
+    const calculatedPoints = calcPoints(season, gender, event, convertedMark);
     setPoints(calculatedPoints);
     if (calculatedPoints !== undefined) {
       // Add new result to the top of the list
-      const newEntry = { season, gender, event, mark, points: calculatedPoints };
+      const newEntry = { season, gender, event, mark: formattedMark, points: calculatedPoints };
       setHistory([newEntry, ...history.slice(0, 9)]);
     }
   };
 
   // Converts points to a mark and updates history if valid
   const handleSaveMarks = () => {
-    const calculatedMark = calcMark(season, gender, event, points);
+    if (!isValidEntry(season, gender, event, points, false)) return;
+    const formattedPoints = hundredths(points);
+    setPoints(formattedPoints);
+
+    const calculatedMark = calcMark(season, gender, event, formattedPoints);
+    const formattedMark = formatMark(calculatedMark, event);
     setMark(calculatedMark);
+    setDispMark(formattedMark);
     if (calculatedMark !== undefined) {
       // Add new result to the top of the list
-      const newEntry = { season, gender, event, mark: calculatedMark, points };
+      const newEntry = { season, gender, event, mark: formattedMark, points: formattedPoints };
       setHistory([newEntry, ...history.slice(0, 9)]);
     }
   };
@@ -317,7 +450,7 @@ function Trackulator() {
                 
                 <div className="input-group">
                     <label>Mark:</label>
-                    <input type="text" value={mark} onChange={(e) => setMark(e.target.value)} placeholder="Enter mark" />
+                    <input type="text" value={dispMark} onChange={(e) => setDispMark(e.target.value)} placeholder="Enter mark" />
                 </div>
                 
                 <div className="input-group">
