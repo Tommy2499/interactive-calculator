@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Trackulator.css';
 import TopMenu from './menus/TopMenu';
 import BottomMenu from './menus/BottomMenu';
@@ -136,6 +136,10 @@ function pointFormula(coefficients, mark){
     return points;
 }
 
+function getEventName(season, gender, event) {
+    return eventMap[gender.toLowerCase()]?.[season]?.[event];
+}
+
 /**
  * Retrieves the appropriate coefficients and calculates total points.
  * @param {string} season - "Indoor" or "Outdoor".
@@ -146,15 +150,12 @@ function pointFormula(coefficients, mark){
  */
 function calcPoints(season, gender, event, mark){
     gender = gender.toLowerCase();
-    let eventName = "";
-    if (season === "Indoor"){
-        eventName = eventMap[gender][season][event];
-    }
-    if (!eventName){
-        season = "Outdoor";
-        eventName = eventMap[gender][season][event];
-    }
+    const eventName = getEventName(season, gender, event);
+    if (!eventName) return undefined;
+
     const coefficients = coefficients2025[gender][eventName];
+    if (!coefficients) return undefined;
+
     let points = pointFormula(coefficients, mark);
     return points;
 }
@@ -258,15 +259,12 @@ function formatMark(mark, event){
 function calcMark(season, gender, event, points){
     gender = gender.toLowerCase();
     points = Number(points);
-    let eventName = "";
-    if (season === "Indoor"){
-        eventName = eventMap[gender][season][event];
-    }
-    if (!eventName){
-        season = "Outdoor";
-        eventName = eventMap[gender][season][event];
-    }
+    const eventName = getEventName(season, gender, event);
+    if (!eventName) return undefined;
+
     const coefficients = coefficients2025[gender][eventName];
+    if (!coefficients) return undefined;
+
     let mark = markFormula(coefficients, points);
     return mark;
 }
@@ -295,6 +293,10 @@ function isValidEntry(season, gender, event, input, isCalcPoints){
     }
     if (!event) {
         alertNull("event");
+        return false;
+    }
+    if (!getEventName(season, gender, event)) {
+        alert(`Error. ${event} is not available for ${gender} ${season}.`);
         return false;
     }
     if (input === "" || input === null || input === undefined) {
@@ -348,8 +350,11 @@ function Trackulator() {
     if (season && gender) {
       const events = Object.keys(eventMap[gender.toLowerCase()][season]);
       setEventOptions(events);
+      if (!events.includes(event)) {
+        setEvent(events[0] || '');
+      }
     }
-  }, [season, gender]);
+  }, [season, gender, event]);
 
   // Saves the entered mark as points and updates history if valid
   const handleSavePoints = () => {
@@ -366,12 +371,15 @@ function Trackulator() {
     setDispMark(formattedMark);
 
     const calculatedPoints = calcPoints(season, gender, event, convertedMark);
-    setPoints(calculatedPoints);
-    if (calculatedPoints !== undefined) {
-      // Add new result to the top of the list
-      const newEntry = { season, gender, event, mark: formattedMark, points: calculatedPoints };
-      setHistory([newEntry, ...history.slice(0, 9)]);
+    if (calculatedPoints === undefined) {
+        alert(`Error. ${event} is not available for ${gender} ${season}.`)
+        return;
     }
+
+    setPoints(calculatedPoints);
+    // Add new result to the top of the list
+    const newEntry = { season, gender, event, mark: formattedMark, points: calculatedPoints };
+    setHistory([newEntry, ...history.slice(0, 9)]);
   };
 
   // Converts points to a mark and updates history if valid
@@ -381,14 +389,17 @@ function Trackulator() {
     setPoints(formattedPoints);
 
     const calculatedMark = calcMark(season, gender, event, formattedPoints);
+    if (calculatedMark === undefined) {
+        alert(`Error. ${event} is not available for ${gender} ${season}.`)
+        return;
+    }
+
     const formattedMark = formatMark(calculatedMark, event);
     setMark(calculatedMark);
     setDispMark(formattedMark);
-    if (calculatedMark !== undefined) {
-      // Add new result to the top of the list
-      const newEntry = { season, gender, event, mark: formattedMark, points: formattedPoints };
-      setHistory([newEntry, ...history.slice(0, 9)]);
-    }
+    // Add new result to the top of the list
+    const newEntry = { season, gender, event, mark: formattedMark, points: formattedPoints };
+    setHistory([newEntry, ...history.slice(0, 9)]);
   };
 
   // Clears all entries in the history
