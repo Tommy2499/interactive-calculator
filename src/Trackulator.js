@@ -3,6 +3,7 @@ import './Trackulator.css';
 import TopMenu from './menus/TopMenu';
 import BottomMenu from './menus/BottomMenu';
 import eventMap from './EventMap.json';
+import eventAttributes from './EventAttributes.json';
 import coefficients2025 from './Coefficients2025.json'
 
 const inchToM = 1 / 39.3700787402;
@@ -34,6 +35,11 @@ function timeToSeconds(mark){
     return hundredths(totalSeconds);
 }
 
+/**
+ * Rounds a number to two decimal places.
+ * @param {number|string} num - Number to round.
+ * @returns {number} Number rounded to the nearest hundredth.
+ */
 function hundredths(num) {
     return Math.round(num * 100) / 100;
 }
@@ -58,8 +64,8 @@ function feetToMeters(mark){
     let feet = 0;
     let sections = mark.split(/['"’‘]/);
 
-    if (iIn != -1){
-        if (iFt != -1){
+    if (iIn !== -1){
+        if (iFt !== -1){
             if (iFt < iIn){
                 feet = sections[0];
                 inches = sections[1];
@@ -73,7 +79,7 @@ function feetToMeters(mark){
             inches = sections[0];
         }
     }
-    else if (iFt != -1){
+    else if (iFt !== -1){
         feet = sections[0];
         inches = sections[1];
     }
@@ -99,23 +105,71 @@ function formatMetric(mark){
 }
 
 /**
- * Determines which conversion method to use based on the format of the mark.
- * @param {string} mark - User-provided distance or time.
- * @returns {number} Numeric value in meters or seconds.
+ * Checks whether a mark contains feet or inches notation.
+ * @param {string} mark - User-provided mark.
+ * @returns {boolean} True if the mark uses imperial notation.
  */
-function convMark(mark){
-    if (mark.includes(":")){
+function hasImperialNotation(mark) {
+    return apostrophes.some(ap => mark.includes(ap)) || mark.includes("\"");
+}
+
+/**
+ * Converts a time mark to seconds.
+ * @param {string} mark - User-provided time or raw seconds.
+ * @returns {number} Time in seconds, or NaN for invalid input.
+ */
+function parseTimeMark(mark) {
+    if (mark.includes(":")) {
         return timeToSeconds(mark);
     }
-    else if (apostrophes.some(ap => mark.includes(ap)) || mark.includes("\"")){
+    return hundredths(Number(mark));
+}
+
+/**
+ * Converts a distance mark to meters.
+ * @param {string} mark - User-provided metric, imperial, or raw meter distance.
+ * @returns {number} Distance in meters, or NaN for invalid input.
+ */
+function parseDistanceMark(mark) {
+    if (hasImperialNotation(mark)) {
         return feetToMeters(mark);
     }
-    else if (mark.length > 1 && mark.endsWith("m")){
+    if (mark.length > 1 && mark.endsWith("m")) {
         return formatMetric(mark);
     }
-    else{
-        return hundredths(Number(mark));
+    return hundredths(Number(mark));
+}
+
+/**
+ * Converts a multi-event mark to whole points.
+ * @param {string} mark - User-provided multi-event point total.
+ * @returns {number} Rounded point total, or NaN for invalid input.
+ */
+function parsePointsMark(mark) {
+    return Math.round(Number(mark));
+}
+
+/**
+ * Converts a mark using the selected event's result format.
+ * @param {string} mark - User-provided mark.
+ * @param {string} event - Selected event name.
+ * @returns {number} Converted mark in seconds, meters, or points.
+ */
+function convMark(mark, event) {
+    const attributes = eventAttributes[event];
+    if (!attributes) return NaN;
+
+    if (attributes.resultFormat === "time") {
+        return parseTimeMark(mark);
     }
+    if (attributes.resultFormat === "distance") {
+        return parseDistanceMark(mark);
+    }
+    if (attributes.resultFormat === "points") {
+        return parsePointsMark(mark);
+    }
+
+    return NaN;
 }
 
 /**
@@ -136,8 +190,28 @@ function pointFormula(coefficients, mark){
     return points;
 }
 
+/**
+ * Looks up the coefficient-table event key for a selected event.
+ * @param {string} season - Selected season ("Indoor" or "Outdoor").
+ * @param {string} gender - Selected gender ("Men" or "Women").
+ * @param {string} event - Selected event name.
+ * @returns {string|undefined} Coefficient-table event key.
+ */
 function getEventName(season, gender, event) {
     return eventMap[gender.toLowerCase()]?.[season]?.[event];
+}
+
+/**
+ * Sorts event names by their configured sort value.
+ * @param {string[]} events - Event names to sort.
+ * @returns {string[]} Sorted event names.
+ */
+function sortEventsByAttributes(events) {
+    return [...events].sort((eventA, eventB) => {
+        const sortA = eventAttributes[eventA]?.sortValue ?? Number.MAX_SAFE_INTEGER;
+        const sortB = eventAttributes[eventB]?.sortValue ?? Number.MAX_SAFE_INTEGER;
+        return sortA - sortB || eventA.localeCompare(eventB);
+    });
 }
 
 /**
@@ -227,21 +301,21 @@ function secondsToTime(seconds){
 }
 
 /**
- * Formats a numeric mark for display based on event type.
- * Running events are formatted as time (MM:SS.SS or H:MM:SS.SS).
- * Field events are formatted as distance (X.XXm).
+ * Formats a numeric mark for display based on the event result format.
+ * Time events are formatted as time, multi events as whole points, and field
+ * events as meters.
  * @param {number} mark - Numeric mark value (meters or seconds).
  * @param {string} event - Event name to determine formatting type.
  * @returns {string} Formatted mark string.
  */
 function formatMark(mark, event){
-    const regex = /\d/;
-    // Running event
-    if (regex.test(event) || event.includes("Marathon")) {
+    const attributes = eventAttributes[event];
+    // Timed event
+    if (attributes?.resultFormat === "time") {
         return secondsToTime(Number(mark));
     }
     // Multi event
-    if (event.endsWith("athlon")) {
+    if (attributes?.resultFormat === "points") {
         return String(Math.round(mark));
     }
     // Field event
@@ -279,9 +353,6 @@ function calcMark(season, gender, event, points){
  * @returns {boolean} True if all inputs are valid, false otherwise.
  */
 function isValidEntry(season, gender, event, input, isCalcPoints){
-
-    // TODO: Add selection validation for season, gender, and event
-
     // Check for null/empty inputs
     if (!season) {
         alertNull("season");
@@ -297,6 +368,10 @@ function isValidEntry(season, gender, event, input, isCalcPoints){
     }
     if (!getEventName(season, gender, event)) {
         alert(`Error. ${event} is not available for ${gender} ${season}.`);
+        return false;
+    }
+    if (!eventAttributes[event]) {
+        alert(`Error. No attributes found for ${event}.`);
         return false;
     }
     if (input === "" || input === null || input === undefined) {
@@ -340,7 +415,6 @@ function Trackulator() {
   const [season, setSeason] = useState('Outdoor');
   const [gender, setGender] = useState('Men');
   const [event, setEvent] = useState('100m');
-  const [mark, setMark] = useState('');
   const [dispMark, setDispMark] = useState('');
   const [points, setPoints] = useState('');
   const [history, setHistory] = useState([]);
@@ -348,7 +422,7 @@ function Trackulator() {
 
   useEffect(() => {
     if (season && gender) {
-      const events = Object.keys(eventMap[gender.toLowerCase()][season]);
+      const events = sortEventsByAttributes(Object.keys(eventMap[gender.toLowerCase()][season]));
       setEventOptions(events);
       if (!events.includes(event)) {
         setEvent(events[0] || '');
@@ -356,16 +430,17 @@ function Trackulator() {
     }
   }, [season, gender, event]);
 
-  // Saves the entered mark as points and updates history if valid
+  /**
+   * Saves the entered mark as points and updates history if valid.
+   */
   const handleSavePoints = () => {
     if (!isValidEntry(season, gender, event, dispMark, true)) return;
 
-    const convertedMark = convMark(dispMark);
+    const convertedMark = convMark(dispMark, event);
     if (Number.isNaN(convertedMark) || convertedMark < 0) {
         alert(`Error. Invalid mark.`)
         return;
     }
-    setMark(convertedMark)
 
     const formattedMark = formatMark(convertedMark, event);
     setDispMark(formattedMark);
@@ -382,7 +457,9 @@ function Trackulator() {
     setHistory([newEntry, ...history.slice(0, 9)]);
   };
 
-  // Converts points to a mark and updates history if valid
+  /**
+   * Converts points to a mark and updates history if valid.
+   */
   const handleSaveMarks = () => {
     if (!isValidEntry(season, gender, event, points, false)) return;
     const formattedPoints = hundredths(points);
@@ -395,14 +472,15 @@ function Trackulator() {
     }
 
     const formattedMark = formatMark(calculatedMark, event);
-    setMark(calculatedMark);
     setDispMark(formattedMark);
     // Add new result to the top of the list
     const newEntry = { season, gender, event, mark: formattedMark, points: formattedPoints };
     setHistory([newEntry, ...history.slice(0, 9)]);
   };
 
-  // Clears all entries in the history
+  /**
+   * Clears all entries in the history.
+   */
   const handleClearHistory = () => {
     setHistory([]);
   };
