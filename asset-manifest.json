@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/interactive-calculator/static/css/main.3d0936ca.css",
-    "main.js": "/interactive-calculator/static/js/main.cf6c66d9.js",
+    "main.js": "/interactive-calculator/static/js/main.078aaf7a.js",
     "static/js/488.8b0e6dde.chunk.js": "/interactive-calculator/static/js/488.8b0e6dde.chunk.js",
     "static/media/mathbackground.svg": "/interactive-calculator/static/media/mathbackground.81606bb608416ef9370d.svg",
     "static/media/Trackulator-Icon.svg": "/interactive-calculator/static/media/Trackulator-Icon.40e09c3b0b1f30f223110daff215f09e.svg",
@@ -9,11 +9,11 @@
     "static/media/Date-Difference-Icon.svg": "/interactive-calculator/static/media/Date-Difference-Icon.ac9df7209e777e61093064daa3c15a2e.svg",
     "index.html": "/interactive-calculator/index.html",
     "main.3d0936ca.css.map": "/interactive-calculator/static/css/main.3d0936ca.css.map",
-    "main.cf6c66d9.js.map": "/interactive-calculator/static/js/main.cf6c66d9.js.map",
+    "main.078aaf7a.js.map": "/interactive-calculator/static/js/main.078aaf7a.js.map",
     "488.8b0e6dde.chunk.js.map": "/interactive-calculator/static/js/488.8b0e6dde.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3d0936ca.css",
-    "static/js/main.cf6c66d9.js"
+    "static/js/main.078aaf7a.js"
   ]
 }
