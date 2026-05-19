@@ -273,6 +273,12 @@ function markFormulaRaw(coefficients, points) {
     let convFactor = coefficients[0];
     let resShift = coefficients[1];
     let ptShift = coefficients[2];
+    const discriminant = Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points);
+
+    if (discriminant < 0) {
+        const vertex = vertexFormula(coefficients);
+        return pointFormula(coefficients, vertex) === Math.round(points) ? vertex : NaN;
+    }
 
     // Point formula:
     // let points = Math.round(convFactor * Math.pow(mark, 2) + resShift * mark + ptShift)
@@ -287,7 +293,7 @@ function markFormulaRaw(coefficients, points) {
     //          mark = (-resShift +- sqrt(resShift^2 - 4 * convFactor * (ptShift - points))) / (2 * convFactor)
     // Reformat for JavaScript and make compatible for scoring tables
     //          let mark = Math.round((-resShift + Math.sqrt(Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points))) / (2 * convFactor)).toFixed(2)
-    let mark = Math.min(Math.abs(-resShift - Math.sqrt(Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points))) / (2 * convFactor), Math.abs(-resShift + Math.sqrt(Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points))) / (2 * convFactor));
+    let mark = Math.min(Math.abs(-resShift - Math.sqrt(discriminant)) / (2 * convFactor), Math.abs(-resShift + Math.sqrt(discriminant)) / (2 * convFactor));
     return mark;
 }
 
