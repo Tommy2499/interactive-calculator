@@ -11,6 +11,9 @@ const ftToM = inchToM * 12;
 const minToSec = 60;
 const hrToSec = 3600;
 const apostrophes = ["'", "’", "‘"];
+const defaultMarkPrecision = 100;
+const pointMarkPrecision = 1;
+const roundingTolerance = 1e-9;
 
 /**
  * Converts time in HH:MM:SS format to total seconds.
@@ -150,6 +153,17 @@ function parsePointsMark(mark) {
 }
 
 /**
+ * Rounds a converted mark to the precision users can re-enter.
+ * @param {number} mark - Converted mark value.
+ * @param {{resultFormat: string}} attributes - Selected event attributes.
+ * @returns {number} Mark rounded to the event's input precision.
+ */
+function roundMarkToPrecision(mark, attributes) {
+    const precision = getMarkPrecision(attributes);
+    return Math.round(mark * precision) / precision;
+}
+
+/**
  * Converts a mark using the selected event's result format.
  * @param {string} mark - User-provided mark.
  * @param {string} event - Selected event name.
@@ -158,18 +172,22 @@ function parsePointsMark(mark) {
 function convMark(mark, event) {
     const attributes = eventAttributes[event];
     if (!attributes) return NaN;
+    let convertedMark = NaN;
 
     if (attributes.resultFormat === "time") {
-        return parseTimeMark(mark);
+        convertedMark = parseTimeMark(mark);
     }
-    if (attributes.resultFormat === "distance") {
-        return parseDistanceMark(mark);
+    else if (attributes.resultFormat === "distance") {
+        convertedMark = parseDistanceMark(mark);
     }
-    if (attributes.resultFormat === "points") {
-        return parsePointsMark(mark);
+    else if (attributes.resultFormat === "points") {
+        convertedMark = parsePointsMark(mark);
     }
 
-    return NaN;
+    if (Number.isNaN(convertedMark)) {
+        return NaN;
+    }
+    return roundMarkToPrecision(convertedMark, attributes);
 }
 
 /**
@@ -215,6 +233,21 @@ function sortEventsByAttributes(events) {
 }
 
 /**
+ * Retrieves the coefficient array for a selected event.
+ * @param {string} season - Selected season ("Indoor" or "Outdoor").
+ * @param {string} gender - Selected gender ("Men" or "Women").
+ * @param {string} event - Selected event name.
+ * @returns {number[]|undefined} Coefficient array for the selected event.
+ */
+function getCoefficients(season, gender, event) {
+    gender = gender.toLowerCase();
+    const eventName = getEventName(season, gender, event);
+    if (!eventName) return undefined;
+
+    return coefficients2025[gender][eventName];
+}
+
+/**
  * Retrieves the appropriate coefficients and calculates total points.
  * @param {string} season - "Indoor" or "Outdoor".
  * @param {string} gender - "men" or "women".
@@ -223,11 +256,7 @@ function sortEventsByAttributes(events) {
  * @returns {number|undefined} The final points value.
  */
 function calcPoints(season, gender, event, mark){
-    gender = gender.toLowerCase();
-    const eventName = getEventName(season, gender, event);
-    if (!eventName) return undefined;
-
-    const coefficients = coefficients2025[gender][eventName];
+    const coefficients = getCoefficients(season, gender, event);
     if (!coefficients) return undefined;
 
     let points = pointFormula(coefficients, mark);
@@ -235,12 +264,12 @@ function calcPoints(season, gender, event, mark){
 }
 
 /**
- * Uses the quadratic formula to derive a mark from a given points value.
+ * Uses the quadratic formula to derive an unrounded mark from a points value.
  * @param {number[]} coefficients - [convFactor, resShift, ptShift].
  * @param {number} points - Point score to solve for.
- * @returns {string} Mark in meters or seconds (as a string).
+ * @returns {number} Unrounded mark in meters, seconds, or points.
  */
-function markFormula(coefficients, points){
+function markFormulaRaw(coefficients, points) {
     let convFactor = coefficients[0];
     let resShift = coefficients[1];
     let ptShift = coefficients[2];
@@ -258,8 +287,135 @@ function markFormula(coefficients, points){
     //          mark = (-resShift +- sqrt(resShift^2 - 4 * convFactor * (ptShift - points))) / (2 * convFactor)
     // Reformat for JavaScript and make compatible for scoring tables
     //          let mark = Math.round((-resShift + Math.sqrt(Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points))) / (2 * convFactor)).toFixed(2)
-    let mark = (Math.round(Math.min(Math.abs(-resShift - Math.sqrt(Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points))) / (2 * convFactor), Math.abs(-resShift + Math.sqrt(Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points))) / (2 * convFactor)) * 100) / 100).toFixed(2);
+    let mark = Math.min(Math.abs(-resShift - Math.sqrt(Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points))) / (2 * convFactor), Math.abs(-resShift + Math.sqrt(Math.pow(resShift, 2) - 4 * convFactor * (ptShift - points))) / (2 * convFactor));
     return mark;
+}
+
+/**
+ * Uses the quadratic formula to derive a mark from a given points value.
+ * @param {number[]} coefficients - [convFactor, resShift, ptShift].
+ * @param {number} points - Point score to solve for.
+ * @returns {string} Mark in meters or seconds (as a string).
+ */
+function markFormula(coefficients, points){
+    return hundredths(markFormulaRaw(coefficients, points)).toFixed(2);
+}
+
+/**
+ * Finds the mark where the event's scoring curve changes direction.
+ * @param {number[]} coefficients - [convFactor, resShift, ptShift].
+ * @returns {number} Vertex mark value.
+ */
+function vertexFormula(coefficients) {
+    // x value of vertex of a quadratic: -b / (2a)
+    const convFactor = coefficients[0];
+    const resShift = coefficients[1];
+    return -resShift / (2 * convFactor);
+}
+
+/**
+ * Gets the display/input precision for a converted mark.
+ * @param {{resultFormat: string}} attributes - Selected event attributes.
+ * @returns {number} Number of accepted input units per whole mark.
+ */
+function getMarkPrecision(attributes) {
+    return attributes.resultFormat === "points" ? pointMarkPrecision : defaultMarkPrecision;
+}
+
+/**
+ * Rounds a mark up to the nearest displayable input unit.
+ * @param {number} mark - Raw mark boundary.
+ * @param {number} precision - Number of accepted input units per whole mark.
+ * @returns {number} Mark rounded up to the nearest displayable input unit.
+ */
+function ceilMark(mark, precision) {
+    return Math.ceil((mark - roundingTolerance) * precision) / precision;
+}
+
+/**
+ * Rounds a mark down to the nearest displayable input unit.
+ * @param {number} mark - Raw mark boundary.
+ * @param {number} precision - Number of accepted input units per whole mark.
+ * @returns {number} Mark rounded down to the nearest displayable input unit.
+ */
+function floorMark(mark, precision) {
+    return Math.floor((mark + roundingTolerance) * precision) / precision;
+}
+
+/**
+ * Checks whether a converted mark stays within the scored branch and 0–1400
+ * rounded point range.
+ * @param {number} mark - Converted mark value.
+ * @param {number[]} coefficients - [convFactor, resShift, ptShift].
+ * @param {{resultFormat: string}} attributes - Selected event attributes.
+ * @param {{min: number, max: number}} range - Exact accepted mark range.
+ * @returns {boolean} True if the mark is accepted by the scoring table.
+ */
+function isAcceptedMark(mark, coefficients, attributes, range) {
+    const points = pointFormula(coefficients, mark);
+    return (
+        points >= 0 &&
+        points <= 1400 &&
+        mark >= range.min &&
+        mark <= range.max &&
+        Boolean(attributes.resultFormat)
+    );
+}
+
+/**
+ * Moves a display boundary inward until it is accepted by the scoring table.
+ * @param {number} mark - Displayable mark boundary.
+ * @param {number} direction - Direction to move by one displayable input unit.
+ * @param {number} precision - Number of accepted input units per whole mark.
+ * @param {number[]} coefficients - [convFactor, resShift, ptShift].
+ * @param {{resultFormat: string}} attributes - Selected event attributes.
+ * @param {{min: number, max: number}} range - Exact accepted mark range.
+ * @returns {number} Nearest accepted displayable mark.
+ */
+function adjustToAcceptedMark(mark, direction, precision, coefficients, attributes, range) {
+    while (!isAcceptedMark(mark, coefficients, attributes, range)) {
+        mark = Math.round((mark + direction / precision) * precision) / precision;
+    }
+    return mark;
+}
+
+/**
+ * Gets the practical mark range for the selected event's 0–1400 point table.
+ * @param {string} season - Selected season ("Indoor" or "Outdoor").
+ * @param {string} gender - Selected gender ("Men" or "Women").
+ * @param {string} event - Selected event name.
+ * @returns {{min: number, max: number, displayMin: number, displayMax: number}|undefined} Accepted converted mark range.
+ */
+function getValidMarkRange(season, gender, event) {
+    const coefficients = getCoefficients(season, gender, event);
+    const attributes = eventAttributes[event];
+    if (!coefficients || !attributes) return undefined;
+
+    const vertex = vertexFormula(coefficients);
+    const highBoundaryMark = markFormulaRaw(coefficients, 1400.5);
+    const precision = getMarkPrecision(attributes);
+
+    if (attributes.resultFormat === "time") {
+        const range = {
+            min: highBoundaryMark,
+            max: vertex
+        };
+        return {
+            ...range,
+            displayMin: adjustToAcceptedMark(ceilMark(range.min, precision), 1, precision, coefficients, attributes, range),
+            displayMax: adjustToAcceptedMark(floorMark(range.max, precision), -1, precision, coefficients, attributes, range)
+        };
+    }
+
+    const range = {
+        min: Math.max(0, vertex),
+        max: highBoundaryMark
+    };
+    return {
+        ...range,
+        displayMin: adjustToAcceptedMark(ceilMark(range.min, precision), 1, precision, coefficients, attributes, range),
+        displayMax: adjustToAcceptedMark(floorMark(range.max, precision), -1, precision, coefficients, attributes, range)
+    };
 }
 
 /**
@@ -331,12 +487,8 @@ function formatMark(mark, event){
  * @returns {string|undefined} The final mark.
  */
 function calcMark(season, gender, event, points){
-    gender = gender.toLowerCase();
     points = Number(points);
-    const eventName = getEventName(season, gender, event);
-    if (!eventName) return undefined;
-
-    const coefficients = coefficients2025[gender][eventName];
+    const coefficients = getCoefficients(season, gender, event);
     if (!coefficients) return undefined;
 
     let mark = markFormula(coefficients, points);
@@ -408,6 +560,16 @@ function alertRange(label, start, end) {
 }
 
 /**
+ * Alerts the user that a mark is outside the accepted scoring range.
+ * @param {number} minMark - Minimum accepted display mark.
+ * @param {number} maxMark - Maximum accepted display mark.
+ * @param {string} event - Selected event name.
+ */
+function alertMarkRange(minMark, maxMark, event) {
+    alertRange("Mark", formatMark(minMark, event), formatMark(maxMark, event));
+}
+
+/**
  * Main React component with input fields, calculators, and a history list.
  * @returns {JSX.Element} The rendered Trackulator UI.
  */
@@ -437,20 +599,35 @@ function Trackulator() {
     if (!isValidEntry(season, gender, event, dispMark, true)) return;
 
     const convertedMark = convMark(dispMark, event);
-    if (Number.isNaN(convertedMark) || convertedMark < 0) {
+    if (Number.isNaN(convertedMark)) {
         alert(`Error. Invalid mark.`)
         return;
     }
 
+    const range = getValidMarkRange(season, gender, event);
+    if (!range) {
+        alert(`Error. ${event} is not available for ${gender} ${season}.`)
+        return;
+    }
+
     const formattedMark = formatMark(convertedMark, event);
-    setDispMark(formattedMark);
 
     const calculatedPoints = calcPoints(season, gender, event, convertedMark);
     if (calculatedPoints === undefined) {
         alert(`Error. ${event} is not available for ${gender} ${season}.`)
         return;
     }
+    if (
+        calculatedPoints < 0 ||
+        calculatedPoints > 1400 ||
+        convertedMark < range.min ||
+        convertedMark > range.max
+    ) {
+        alertMarkRange(range.displayMin, range.displayMax, event);
+        return;
+    }
 
+    setDispMark(formattedMark);
     setPoints(calculatedPoints);
     // Add new result to the top of the list
     const newEntry = { season, gender, event, mark: formattedMark, points: calculatedPoints };
