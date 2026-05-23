@@ -10,7 +10,9 @@ const inchToM = 1 / 39.3700787402;
 const ftToM = inchToM * 12;
 const minToSec = 60;
 const hrToSec = 3600;
-const apostrophes = ["'", "’", "‘"];
+const apostrophes = ["'", "`", "\u00B4", "\u02BC", "\u2018", "\u2019", "\u201B", "\u2032", "\u2035", "\uFF07"];
+const quotationMarks = ["\"", "\u201C", "\u201D", "\u201E", "\u201F", "\u2033", "\u2036", "\uFF02"];
+const imperialDelimiters = new RegExp(`[${apostrophes.join("")}${quotationMarks.join("")}]`);
 const defaultMarkPrecision = 100;
 const pointMarkPrecision = 1;
 const roundingTolerance = 1e-9;
@@ -54,8 +56,15 @@ function hundredths(num) {
  */
 function feetToMeters(mark){
     mark = " " + mark + " ";
-    let iIn = mark.indexOf("\"");
+    let iIn = -1;
     let iFt = -1;
+    for (const quote of quotationMarks) {
+        const index = mark.indexOf(quote);
+        if (index !== -1) {
+            iIn = index;
+            break;
+        }
+    }
     for (const ap of apostrophes) {
         const index = mark.indexOf(ap);
         if (index !== -1) {
@@ -65,7 +74,7 @@ function feetToMeters(mark){
     }
     let inches = 0;
     let feet = 0;
-    let sections = mark.split(/['"’‘]/);
+    let sections = mark.split(imperialDelimiters);
 
     if (iIn !== -1){
         if (iFt !== -1){
@@ -113,7 +122,7 @@ function formatMetric(mark){
  * @returns {boolean} True if the mark uses imperial notation.
  */
 function hasImperialNotation(mark) {
-    return apostrophes.some(ap => mark.includes(ap)) || mark.includes("\"");
+    return apostrophes.some(ap => mark.includes(ap)) || quotationMarks.some(quote => mark.includes(quote));
 }
 
 /**
