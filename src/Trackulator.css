@@ -20,6 +20,7 @@
   flex-direction: column;
   align-items: center;
   padding-top: 40px;
+  padding-bottom: 16px;
 }
 
 /* Handles the layout of inputs and history content */
@@ -37,8 +38,6 @@
   width: 500px;
   max-width: 90vw;
   padding: 24px;
-  padding-top: 48px;
-  padding-bottom: 48px;
   border-radius: 32px;
 }
 
@@ -140,27 +139,32 @@ input::placeholder {
 }
 
 .history-section ul {
+  display: flex;
+  flex-direction: column;
   list-style-type: none;
   padding: 0;
   margin: 0;
   height: 30rem;
   width: 100%;
+  justify-content: flex-start;
 }
 
 .history-section li {
-  display: flex;
-  width: 100%;
+  display: grid;
+  grid-template-columns: 18% 16% minmax(0, 30%) minmax(0, 22%) 14%;
   border-radius: 5px;
   font-size: 1rem;
   color: #333;
+  width: 95%;
+  margin: 0 auto;
 }
 
 /* Styles each piece of data in the history list */
 .history-data {
-  width: 20%;
-  padding-left: 16px;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  min-width: 0;
+  margin: 12px 0;
+  overflow-wrap: anywhere;
+  text-align: left;
 }
 
 .sep-line-sm {
@@ -179,21 +183,39 @@ input::placeholder {
 .history-container {
   display: flex;
   flex-direction: column;
-  width: 60%;
-}
-
-/* High-level container to organize history headers */
-.header {
-  display: flex;
-  width: 100%;
-  font-weight: 700;
+  width: 70%;
+  max-width: 760px;
+  align-items: center;
 }
 
 .header-item {
-  width: 20%;
-  padding-left: 16px;
-  padding-top: 16px;
-  padding-bottom: 16px;
+  padding: 16px 0;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.history-section li,
+.header {
+  display: grid;
+  grid-template-columns: 18% 16% minmax(0, 30%) minmax(0, 22%) 14%;
+  align-items: center;
+  font-weight: 700;
+  text-align: left;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.history-context {
+  display: none;
+}
+
+.history-mark {
+  overflow-wrap: normal;
+}
+
+.history-points {
+  overflow-wrap: normal;
+  padding: 0 0;
 }
 
 /* Layout adjustments and styling for description text */
@@ -207,17 +229,6 @@ p {
   line-height: 130%;
 }
 
-/* Adjusts workflow for smaller screens */
-@media (max-width: 600px) {
-  .executive-buttons {
-    flex-direction: column;
-  }
-
-  .history-container {
-    width: 80%;
-  }
-}
-
 /* Adjusts widths for medium-sized screens */
 @media (max-width: 1200px) {
   .sep-line {
@@ -226,5 +237,119 @@ p {
 
   .description {
     width: 80%;
+  }
+
+  .history-container {
+    width: 80%;
+  }
+
+  .history-section li,
+  .header {
+    grid-template-columns: 18% 16% minmax(0, 30%) minmax(0, 22%) 14%;
+  }
+}
+
+/* Adjusts workflow for smaller screens */
+@media (max-width: 750px) {
+  .executive-buttons {
+    flex-direction: column;
+  }
+
+  .history-container {
+    width: min(92vw, 360px);
+    align-items: center;
+  }
+
+  .history-container > .sep-line-sm,
+  .header,
+  .sep-line-xs {
+    display: none;
+  }
+
+  .history-section {
+    margin-top: 8px;
+  }
+
+  .history-section h2 {
+    margin-bottom: 24px;
+  }
+
+  .history-section ul {
+    gap: 8px;
+    height: auto;
+  }
+
+  .history-section li {
+    position: relative;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 3fr);
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      "event points"
+      "context mark";
+    align-items: center;
+    box-sizing: border-box;
+    width: calc(100% - 24px);
+    height: 72px;
+    padding: 10px 12px 10px 18px;
+    border: 1px solid #d6dbe3;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 0.92rem;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  .history-section li::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 5px;
+    background-color: #8ec7ff;
+  }
+
+  .history-section li.history-women::before {
+    background-color: #f4a7c4;
+  }
+
+  .history-data {
+    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .history-event {
+    grid-area: event;
+    font-weight: 800;
+    text-align: left;
+    padding-right: 10px;
+  }
+
+  .history-points {
+    grid-area: points;
+    font-weight: 800;
+    text-align: right;
+  }
+
+  .history-context {
+    grid-area: context;
+    display: block;
+    color: #666;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  .history-mark {
+    grid-area: mark;
+    color: #555;
+    font-size: 0.86rem;
+    text-align: right;
+  }
+
+  .history-season,
+  .history-gender {
+    display: none;
   }
 }

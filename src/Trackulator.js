@@ -585,6 +585,16 @@ function alertMarkRange(minMark, maxMark, event) {
 }
 
 /**
+ * Formats season and gender for the mobile history context.
+ * @param {string} season - Selected season.
+ * @param {string} gender - Selected gender.
+ * @returns {string} Compact context label.
+ */
+function formatHistoryContext(season, gender) {
+    return `${season} • ${gender}`;
+}
+
+/**
  * Main React component with input fields, calculators, and a history list.
  * @returns {JSX.Element} The rendered Trackulator UI.
  */
@@ -750,22 +760,31 @@ function Trackulator() {
                 <div className="history-container">
                     <div className="sep-line-sm"/>
                     <div className="header">
-                        <div className="header-item">Season</div>
-                        <div className="header-item">Gender</div>
-                        <div className="header-item">Event</div>
-                        <div className="header-item">Mark</div>
-                        <div className="header-item">Points</div>
+                        
+                        <div className="header-item history-season">Season</div>
+                        <div className="header-item history-gender">Gender</div>
+                        <div className="header-item history-event">Event</div>
+                        <div className="header-item history-mark">Mark</div>
+                        <div className="header-item history-points">Points</div>
+                        <div className="header-item history-context">Context</div>
                     </div>
                     <div className="sep-line-sm"/>
                     <ul>
                     {history.map((entry, index) => (
                         <div key={index}>
-                            <li>
-                                <div className="history-data">{entry.season}</div>
-                                <div className="history-data">{entry.gender}</div>
-                                <div className="history-data">{entry.event}</div>
-                                <div className="history-data">{entry.mark}</div>
-                                <div className="history-data">{entry.points}</div>
+                            <li className={`history-entry history-${entry.gender.toLowerCase()}`}>
+                                <div className="history-data history-season">{entry.season}</div>
+                                <div className="history-data history-gender">{entry.gender}</div>
+                                <div className="history-data history-event" title={entry.event}>{entry.event}</div>
+                                <div className="history-data history-mark">{entry.mark}</div>
+                                <div className="history-data history-points">{entry.points}</div>
+                                <div
+                                    className="history-data history-context"
+                                    title={`${entry.season} ${entry.gender}`}
+                                    aria-label={`${entry.season} ${entry.gender}`}
+                                >
+                                    {formatHistoryContext(entry.season, entry.gender)}
+                                </div>
                             </li>
                             {history.length - 1 > index && <div className="sep-line-xs"/>}
                         </div>
