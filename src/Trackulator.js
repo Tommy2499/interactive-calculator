@@ -472,14 +472,27 @@ function secondsToTime(seconds){
 }
 
 /**
+ * Converts meters to a feet and inches display string.
+ * @param {number} meters - Distance in meters.
+ * @returns {string} Distance formatted as feet and inches.
+ */
+function metersToFeetInches(meters) {
+    const totalInches = hundredths(meters / inchToM);
+    const feet = Math.floor(totalInches / 12);
+    const inches = hundredths(totalInches - feet * 12);
+    return `${feet}' ${inches.toFixed(2)}"`;
+}
+
+/**
  * Formats a numeric mark for display based on the event result format.
  * Time events are formatted as time, multi events as whole points, and field
  * events as meters.
  * @param {number} mark - Numeric mark value (meters or seconds).
  * @param {string} event - Event name to determine formatting type.
+ * @param {string} unitSystem - Preferred display units ("metric" or "imperial").
  * @returns {string} Formatted mark string.
  */
-function formatMark(mark, event){
+function formatMark(mark, event, unitSystem = "metric"){
     const attributes = eventAttributes[event];
     // Timed event
     if (attributes?.resultFormat === "time") {
@@ -488,6 +501,9 @@ function formatMark(mark, event){
     // Multi event
     if (attributes?.resultFormat === "points") {
         return String(Math.round(mark));
+    }
+    if (unitSystem === "imperial") {
+        return metersToFeetInches(Number(mark));
     }
     // Field event
     return `${hundredths(mark).toFixed(2)}m`;
@@ -606,6 +622,7 @@ function Trackulator() {
   const [points, setPoints] = useState('');
   const [history, setHistory] = useState([]);
   const [eventOptions, setEventOptions] = useState([]);
+  const [historyUnitSystem, setUnits] = useState('metric');
 
   useEffect(() => {
     if (season && gender) {
@@ -655,7 +672,7 @@ function Trackulator() {
     setDispMark(formattedMark);
     setPoints(calculatedPoints);
     // Add new result to the top of the list
-    const newEntry = { season, gender, event, mark: formattedMark, points: calculatedPoints };
+    const newEntry = { season, gender, event, markValue: convertedMark, points: calculatedPoints };
     setHistory([newEntry, ...history.slice(0, 9)]);
   };
 
@@ -676,15 +693,17 @@ function Trackulator() {
     const formattedMark = formatMark(calculatedMark, event);
     setDispMark(formattedMark);
     // Add new result to the top of the list
-    const newEntry = { season, gender, event, mark: formattedMark, points: formattedPoints };
+    const newEntry = { season, gender, event, markValue: Number(calculatedMark), points: formattedPoints };
     setHistory([newEntry, ...history.slice(0, 9)]);
   };
 
   /**
    * Clears all entries in the history.
+   * @param {React.MouseEvent<HTMLButtonElement>} event - Click event from the clear button.
    */
-  const handleClearHistory = () => {
+  const handleClearHistory = (event) => {
     setHistory([]);
+    event.currentTarget.blur();
   };
 
   return (
@@ -751,13 +770,37 @@ function Trackulator() {
                 <div className="executive-buttons">
                     <button onClick={handleSavePoints} className="save-button">Calculate Points</button>
                     <button onClick={handleSaveMarks} className="save-button">Calculate Mark</button>
-                    <button onClick={handleClearHistory} className="save-button">Clear History</button>
                 </div>
             </div>
             <div className="sep-line"/>
             <div className="history-section">
-                <h2>History (Last 10 Entries)</h2>
+                <div className="history-heading">
+                    <h2>History (Last 10 Entries)</h2>
+                </div>
                 <div className="history-container">
+                    <div className={`history-tools ${history.length === 0 ? 'history-tools-empty' : ''}`}>
+                        <div className="unit-toggle" role="group" aria-label="History display units">
+                            <button
+                                type="button"
+                                className={`unit-toggle-option ${historyUnitSystem === 'metric' ? 'active' : ''}`}
+                                aria-pressed={historyUnitSystem === 'metric'}
+                                onClick={() => setUnits('metric')}
+                            >
+                                Metric
+                            </button>
+                            <button
+                                type="button"
+                                className={`unit-toggle-option ${historyUnitSystem === 'imperial' ? 'active' : ''}`}
+                                aria-pressed={historyUnitSystem === 'imperial'}
+                                onClick={() => setUnits('imperial')}
+                            >
+                                Imperial
+                            </button>
+                        </div>
+                        <button type="button" onClick={handleClearHistory} className="history-clear-button">
+                            Clear
+                        </button>
+                    </div>
                     <div className="sep-line-sm"/>
                     <div className="header">
                         
@@ -776,7 +819,7 @@ function Trackulator() {
                                 <div className="history-data history-season">{entry.season}</div>
                                 <div className="history-data history-gender">{entry.gender}</div>
                                 <div className="history-data history-event" title={entry.event}>{entry.event}</div>
-                                <div className="history-data history-mark">{entry.mark}</div>
+                                <div className="history-data history-mark">{formatMark(entry.markValue, entry.event, historyUnitSystem)}</div>
                                 <div className="history-data history-points">{entry.points}</div>
                                 <div
                                     className="history-data history-context"

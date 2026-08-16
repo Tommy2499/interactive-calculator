@@ -134,8 +134,75 @@ input::placeholder {
   font-size: 1.5rem;
   color: #333;
   font-weight: 900;
-  margin-bottom: 36px;
+  margin: 0;
   margin-left: 0;
+}
+
+.history-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  max-width: 760px;
+  margin-bottom: 18px;
+}
+
+.history-tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  margin-bottom: 8px;
+}
+
+.unit-toggle {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  overflow: hidden;
+  background-color: #eef2f7;
+  border: 1px solid #c8d0dc;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.unit-toggle-option {
+  min-width: 54px;
+  height: 100%;
+  padding: 0 9px;
+  color: #555;
+  background-color: #fff;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+}
+
+.unit-toggle-option.active {
+  color: #fff;
+  background-color: #007BFF;
+  box-shadow: none;
+}
+
+.history-clear-button {
+  height: 28px;
+  padding: 0 12px;
+  color: #555;
+  background-color: #fff;
+  border: 1px solid #c8d0dc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.history-clear-button:hover {
+  color: #fff;
+  background-color: #007BFF;
+  border-color: #007BFF;
 }
 
 .history-section ul {
@@ -243,6 +310,10 @@ p {
     width: 80%;
   }
 
+  .history-heading {
+    width: 80%;
+  }
+
   .history-section li,
   .header {
     grid-template-columns: 18% 16% minmax(0, 30%) minmax(0, 22%) 14%;
@@ -251,13 +322,41 @@ p {
 
 /* Adjusts workflow for smaller screens */
 @media (max-width: 750px) {
+  
+  .trackulator-content {
+    padding-top: 20px;
+  }
+  
   .executive-buttons {
-    flex-direction: column;
+    width: 80%;
+    gap: 8px;
+  }
+
+  .save-button {
+    flex: 1;
+    min-width: 0;
+    height: 52px;
+    padding: 8px 10px;
+    font-size: 0.88rem;
   }
 
   .history-container {
     width: min(92vw, 360px);
     align-items: center;
+  }
+
+  .history-heading {
+    width: min(92vw, 360px);
+    margin-bottom: 14px;
+  }
+
+  .history-tools {
+    width: calc(100% - 24px);
+    margin-bottom: 8px;
+  }
+
+  .history-tools-empty {
+    display: none;
   }
 
   .history-container > .sep-line-sm,
@@ -271,7 +370,7 @@ p {
   }
 
   .history-section h2 {
-    margin-bottom: 24px;
+    margin-bottom: 0;
   }
 
   .history-section ul {
@@ -303,7 +402,7 @@ p {
     content: "";
     position: absolute;
     inset: 0 auto 0 0;
-    width: 5px;
+    width: 6px;
     background-color: #8ec7ff;
   }
 
