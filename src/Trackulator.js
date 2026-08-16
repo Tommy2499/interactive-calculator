@@ -732,20 +732,48 @@ function Trackulator() {
         <div className="sep-line"/>
         <div className='input-history-body'>
             <div className='trackulator-inputs'>
-                <div className="input-group s">
+                <div className="input-group switch-group">
                     <label>Season:</label>
-                    <select value={season} onChange={(e) => setSeason(e.target.value)}>
-                        <option value="Indoor">Indoor</option>
-                        <option value="Outdoor">Outdoor</option>
-                    </select>
+                    <div className="input-switch" role="group" aria-label="Season">
+                        <button
+                            type="button"
+                            className={`input-switch-option ${season === 'Outdoor' ? 'active' : ''}`}
+                            aria-pressed={season === 'Outdoor'}
+                            onClick={() => setSeason('Outdoor')}
+                        >
+                            Outdoor
+                        </button>
+                        <button
+                            type="button"
+                            className={`input-switch-option ${season === 'Indoor' ? 'active' : ''}`}
+                            aria-pressed={season === 'Indoor'}
+                            onClick={() => setSeason('Indoor')}
+                        >
+                            Indoor
+                        </button>
+                    </div>
                 </div>
                 
-                <div className="input-group s">
+                <div className="input-group switch-group">
                     <label>Gender:</label>
-                    <select value={gender} onChange={(e) => setGender(e.target.value)}>
-                        <option value="Men">Men</option>
-                        <option value="Women">Women</option>
-                    </select>
+                    <div className="input-switch" role="group" aria-label="Gender">
+                        <button
+                            type="button"
+                            className={`input-switch-option ${gender === 'Men' ? 'active' : ''}`}
+                            aria-pressed={gender === 'Men'}
+                            onClick={() => setGender('Men')}
+                        >
+                            Men
+                        </button>
+                        <button
+                            type="button"
+                            className={`input-switch-option ${gender === 'Women' ? 'active' : ''}`}
+                            aria-pressed={gender === 'Women'}
+                            onClick={() => setGender('Women')}
+                        >
+                            Women
+                        </button>
+                    </div>
                 </div>
                 
                 <div className="input-group s">

@@ -37,7 +37,7 @@
   align-items: center;
   width: 500px;
   max-width: 90vw;
-  padding: 24px;
+  padding: 16px;
   border-radius: 32px;
 }
 
@@ -66,7 +66,7 @@ label {
 select, input[type="text"] {
   padding: 10px;
   font-size: 1rem;
-  border: 2px solid #333;
+  border: 1px solid #333;
   border-radius: 5px;
   width: 100%;
   box-sizing: border-box; 
@@ -91,6 +91,73 @@ select, input[type="text"] {
   pointer-events: none;
 }
 
+.switch-group {
+  align-items: flex-start;
+}
+
+.input-switch {
+  display: grid;
+  grid-template-columns: repeat(2, 86px);
+  width: auto;
+  height: 36px;
+  overflow: hidden;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.16);
+  box-sizing: border-box;
+}
+
+.input-switch-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: 100%;
+  padding: 0 8px;
+  color: #333;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+  transform: none;
+  transition: background-color 0.22s ease, color 0.22s ease;
+  -webkit-tap-highlight-color: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.input-switch-option.active {
+  color: #fff;
+  background-color: #007BFF;
+}
+
+.input-switch-option:not(.active):hover {
+  color: #333;
+  background-color: #d8eaff;
+}
+
+.input-switch-option.active:hover {
+  color: #fff;
+  background-color: #007BFF;
+}
+
+.input-switch-option:active {
+  transform: none;
+}
+
+.input-switch-option:not(.active):active {
+  background-color: #c3ddff;
+}
+
+.input-switch-option.active:active {
+  background-color: #005fca;
+}
+
 input::placeholder {
   color: #aaa;
 }
@@ -111,12 +178,20 @@ input::placeholder {
   background-color: #007BFF;
   border: none;
   border-radius: 5px;
+  box-shadow: 0 3px 9px rgba(0, 91, 191, 0.24);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.22s ease, box-shadow 0.18s ease, transform 0.12s ease;
 }
 
 .save-button:hover {
   background-color: #0056b3;
+  box-shadow: 0 4px 11px rgba(0, 86, 179, 0.28);
+}
+
+.save-button:active {
+  background-color: #005fca;
+  box-shadow: 0 0 0 rgba(0, 91, 191, 0);
+  transform: scale(0.98);
 }
 
 /* Styles the 'history-section' containing the log of previous entries */
@@ -160,15 +235,18 @@ input::placeholder {
   align-items: center;
   height: 28px;
   overflow: hidden;
-  background-color: #eef2f7;
-  border: 1px solid #c8d0dc;
+  background-color: #fff;
   border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.14);
   font-size: 0.84rem;
   font-weight: 700;
 }
 
 .unit-toggle-option {
-  min-width: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
   height: 100%;
   padding: 0 9px;
   color: #555;
@@ -178,6 +256,12 @@ input::placeholder {
   cursor: pointer;
   font: inherit;
   line-height: 1;
+  transform: none;
+  transition: background-color 0.22s ease, color 0.22s ease;
+  -webkit-tap-highlight-color: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .unit-toggle-option.active {
@@ -186,23 +270,67 @@ input::placeholder {
   box-shadow: none;
 }
 
+.unit-toggle-option:not(.active):hover {
+  color: #333;
+  background-color: #d8eaff;
+}
+
+.unit-toggle-option.active:hover {
+  color: #fff;
+  background-color: #007BFF;
+}
+
+.unit-toggle-option:active {
+  transform: none;
+}
+
+.unit-toggle-option:not(.active):active {
+  color: #333;
+  background-color: #c3ddff;
+}
+
+.unit-toggle-option.active:active {
+  color: #fff;
+  background-color: #005fca;
+}
+
 .history-clear-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 28px;
+  min-width: 52px;
   padding: 0 12px;
   color: #555;
   background-color: #fff;
-  border: 1px solid #c8d0dc;
+  border: 0;
   border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.15);
+  box-sizing: border-box;
   cursor: pointer;
+  font-family: inherit;
   font-size: 0.84rem;
   font-weight: 700;
   line-height: 1;
+  transform: none;
+  transition: background-color 0.22s ease, color 0.22s ease, box-shadow 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .history-clear-button:hover {
-  color: #fff;
-  background-color: #007BFF;
-  border-color: #007BFF;
+  color: #333;
+  background-color: #d8eaff;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.15);
+}
+
+.history-clear-button:active {
+  color: #333;
+  background-color: #c3ddff;
+  box-shadow: none;
+  transform: scale(0.98);
 }
 
 .history-section ul {
@@ -390,9 +518,10 @@ p {
     width: calc(100% - 24px);
     height: 72px;
     padding: 10px 12px 10px 18px;
-    border: 1px solid #d6dbe3;
+    border: 0;
     border-radius: 6px;
     background-color: #fff;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.14);
     font-size: 0.92rem;
     overflow: hidden;
     margin: 0 auto;
